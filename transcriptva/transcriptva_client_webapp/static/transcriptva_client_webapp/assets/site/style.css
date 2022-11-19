@@ -1,0 +1,28 @@
+.bg-tva-primary {
+    background-color: #8c52ff !important;
+}
+
+.text-tva-primary {
+    color: #8c52ff !important;
+}
+
+.bg-tva-secondary {
+    background-color: orange;
+}
+
+.bg-tva-light-sidebar {
+    background-color: aliceblue !important;
+}
+
+.tva-box-shadow {
+    box-shadow: 0 .5rem 1rem rgba(30, 30, 30, .15) !important;
+}
+
+.sign-up-aside {
+    background-color: rgba(30, 30, 30, .15);
+    overflow: none !important;
+}
+
+.tva-primary-overlay-bg {
+    background-color: rgba(140, 82, 255, 0.7) !important;
+}

@@ -1,0 +1,104 @@
+{% extends 'transcriptva_client_webapp/auth/base-auth.dtl.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>TranscriptVA - Register</title>
+{% endblock %}
+
+{% block body %}
+    <div class="row h-100">
+        <div class="col col-6 px-0">
+            <div class="card text-bg-dark rounded-0 border-0">
+                <img class="card-img"
+                    alt="Sign In Image"
+                    src="{% static 'transcriptva_client_webapp/assets/images/sign-in-tva-sized.png' %}">
+                <div class="card-img-overlay tva-primary-overlay-bg">
+                    <h2 class="card-title">
+                        <span>Hassle . </span>
+                        <br>
+                        <span>Free .</span>
+                        <br>
+                        <span>Solutions</span>
+                    </h2>
+                    <p class="card-text">Quality transcriptions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-6 bg-light p-3">
+            <form class="form bg-white p-2" method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <h2 class="text-center my-3">Create an Account</h2>
+                <div class="mb-3 row">
+                    <label for="username_input" class="col-2 col-form-label">Username: </label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" name="username_input" id="username_input" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="firstname_input" class="col-2 col-form-label">First Name: </label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" name="firstname_input" id="firstname_input" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="lastname_input" class="col-2 col-form-label">Last Name: </label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" name="lastname_input" id="lastname_input" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="email_input" class="col-2 col-form-label">Email: </label>
+                    <div class="col-10">
+                        <input type="email" class="form-control" name="email_input" id="email_input" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="company_input" class="col-2 col-form-label">Company: </label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" name="company_input" id="company_input">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="password_input" class="col-2 col-form-label">Password: </label>
+                    <div class="col-10">
+                        <input type="password" class="form-control" name="password_input" id="password_input" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="confirm_password_input" class="col-2 col-form-label">Confirm Password: </label>
+                    <div class="col-10">
+                        <input type="password" class="form-control" name="confirm_password_input" id="confirm_password_input" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col col-10 offset-2">
+                        <button class="btn btn-warning mr-2">
+                            <i class="bi-bow-arrow-right"></i>
+                            <span>Create Account</span>
+                        </button>
+                        <a href="{% url 'sign_in' %}" class="btn btn-outline-secondary">
+                            <span>Back to Login</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col col-10 offset-2">
+                        <hr>
+                        <a href="#" class="btn btn-warning">
+                            <span>Sign In with Google</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
