@@ -121,16 +121,10 @@ def create_user(fields):
 
     return user
 
-def audios_list(request):
-    template = loader.get_template('transcriptva_client_webapp/audios/list.dtl.html')
-    context = {}
-
-    return HttpResponse(template.render(
-        context,
-        request
-    ))
-
 def transcripts_list(request):
+    if not request.user.is_authenticated:
+        return redirect('clienthub')
+
     template = loader.get_template('transcriptva_client_webapp/transcripts/list.dtl.html')
     context = {}
 
@@ -139,8 +133,35 @@ def transcripts_list(request):
         request
     ))
 
+def orders_list(request):
+    if not request.user.is_authenticated:
+        return redirect('clienthub')
+
+    template = loader.get_template('transcriptva_client_webapp/orders/list.dtl.html')
+    context = {}
+
+    return HttpResponse(template.render(
+        context,
+        request
+    ))
+
 def support(request):
+    if not request.user.is_authenticated:
+        return redirect('clienthub')
+    
     template = loader.get_template('transcriptva_client_webapp/support.dtl.html')
+    context = {}
+
+    return HttpResponse(template.render(
+        context,
+        request
+    ))
+
+def order_transcript(request):
+    if not request.user.is_authenticated:
+        return redirect('clienthub')
+
+    template = loader.get_template('transcriptva_client_webapp/orders/order.dtl.html')
     context = {}
 
     return HttpResponse(template.render(

@@ -26,3 +26,7 @@
 .tva-primary-overlay-bg {
     background-color: rgba(140, 82, 255, 0.7) !important;
 }
+
+.overflow-y-auto {
+    overflow-y: auto !important;
+}

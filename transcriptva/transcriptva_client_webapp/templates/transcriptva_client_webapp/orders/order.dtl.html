@@ -1,0 +1,136 @@
+{% extends 'transcriptva_client_webapp/base.dtl.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Order Transcript</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-0 shadow-sm">
+    <nav class="navbar nav-lg py-3 px-2">
+        <div class="me-auto">
+            <h4>Order New Transcript</span></h4>
+        </div>
+        <!--<ul class="navbar-nav">
+            <li class="nav-item align-self-end">
+                <a href="{% url 'order_transcript' %}" class="btn btn-warning text-whites">
+                    <i class="bi-file-earmark-plus"></i>
+                    <span>Create New Order</span>
+                </a>
+            </li>
+        </ul>-->
+    </nav>
+</div>
+<div class="flex-fill">
+    <!-- Filters -->
+    <div class="container py-2">
+        <fieldset class="border p-2">
+            <legend class="w-auto">
+                <i class="bi-ticket-detailed"></i>
+                <span>Transcript Details</span>
+            </legend>
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="file_input">
+                        <span>File: </span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <input class="form-control form-control-sm" id="file_input" type="file" placeholder="Type to search...">
+                </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="transcript_type_select">
+                        <span>Type: </span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <select class="form-control form-control-sm" id="transcript_type_select" name="transcript_type_select" placeholder="Transcript type...">
+                        <option value="human_generated" selected>Human Generated</option>
+                        <option value="machine_generated">Machine Generated</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="verbatim_type_select">
+                        <span>Verbatim Type: </span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <select class="form-control form-control-sm" id="verbatim_type_select" name="verbatim_type_select" placeholder="Verbatim type...">
+                        <option value="clean_verbatim" selected>Clean Verbatim</option>
+                        <option value="full_verbatim">Full Verbatim</option>
+                        <option value="custom_verbatim">Custom Verbatim</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="speakers_select">
+                        <span>Number of Speakers: </span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <select class="form-control form-control-sm" id="speakers_select" name="speakers_select" placeholder="Verbatim type...">
+                        <option value="under_two" selected>Two or less</option>
+                        <option value="under_five">Between two and four</option>
+                        <option value="over_five">More than four</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="timestamping_select">
+                        <span>Timestamping: </span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <select class="form-control form-control-sm" id="timestamping_select" name="timestamping_select" placeholder="Verbatim type...">
+                        <option value="no_timestamps" selected>No Timestamps</option>
+                        <option value="every_speaker">Every speaker</option>
+                        <option value="every_period">Every X amount of minutes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="accent_select">
+                        <span>Accent: </span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <select class="form-control form-control-sm" id="accent_select" name="accent_select" placeholder="Verbatim type...">
+                        <option value="us" selected>American English</option>
+                        <option value="british">British English</option>
+                        <option value="custom_verbatim">Custom Verbatim</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-10 offset-2 mt-2 px-1">
+                <button class="btn btn-sm btn-success">
+                    <i class="bi-cart-check"></i>
+                    <span>Proceed to Checkout</span>
+                </button>
+
+                <button class="btn btn-sm btn-warning">
+                    <i class="bi-file-earmark-plus"></i>
+                    <span>Save and Continue Later</span>
+                </button>
+            </div>
+            <div class="col-10 offset-2 px-1">
+                <hr>
+                <a href="{% url 'transcripts' %}" class="btn btn-sm btn-danger">
+                    <i class="bi-arrow-left"></i>
+                    <span>Back to Transcripts</span>
+                </a>
+            </div>
+        </fieldset>
+    </div>
+</div>
+{% endblock %}

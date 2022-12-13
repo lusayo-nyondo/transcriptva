@@ -6,7 +6,7 @@
 <div class="container-fluid px-0 shadow-sm">
     <nav class="navbar nav-lg py-3 px-2">
         <div class="me-auto">
-            <h4>My Transcripts</span></h4>
+        <h4>My Orders</span></h4>
         </div>
         <ul class="navbar-nav">
             <li class="nav-item align-self-end">
@@ -81,7 +81,10 @@
                         <th scope="col">#</th>
                         <th scope="col">File Name</th>
                         <th scope="col">Uploaded On</th>
+                        <th scope="col">Verbatim</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
 
@@ -90,16 +93,55 @@
                         <th scope="row">1</th>
                         <td>Neffex - Great.mpt3</td>
                         <td>2022, March, 12</td>
+                        <td>Full Verbatim</td>
+                        <td>Human Generated</td>
                         <td>
-                            <a class="btn btn-sm btn-success" href="#">Go to Transcript</a>
+                            <span class="badge bg-success">Accepted</span>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle"
+                                    type="dropdown" id="dropdown_menu_button_1" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi-three-dots"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown_menu_button_1">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-three-dots-vertical"></i>
+                                            <span>View and dit</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-three-dots-vertical"></i>
+                                            <span>Save to Folder</span>
+                                        </a>
+                                    </li>
+                                    <hr>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-three-dots-vertical"></i>
+                                            <span class="text-danger">Delete</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
                         <td>Dummy File.mpt3</td>
                         <td>2022, March, 12</td>
+                        <td>Clean Verbatim</td>
+                        <td>Machine Generated</td>
                         <td>
-                            <a class="btn btn-sm btn-warning" href="#">Transcribe</a>
+                            <span class="badge bg-warning">Pending Confirmation</span>
+                        </td>
+                        <td>
+                            <button class="btn">
+                                <i class="bi-three-dots"></i>
+                            </button>
                         </td>
                     </tr>
 
@@ -107,8 +149,15 @@
                         <th scope="row">3</th>
                         <td>Newest File.mpt3</td>
                         <td>2022, March, 12</td>
+                        <td>Full Verbatim</td>
+                        <td>Human Generated</td>
                         <td>
-                            <a class="btn btn-sm btn-primary" href="#">Transcribing...</a>
+                            <span class="badge bg-danger">Rejected</span>
+                        </td>
+                        <td>
+                            <button class="btn">
+                                <i class="bi-three-dots"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -116,4 +165,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

@@ -2,18 +2,22 @@
 
 {% load static %}
 
+{% block title %}
+<title>Upload Transcript</title>
+{% endblock %}
+
 {% block body %}
 <div class="container-fluid px-0 shadow-sm">
     <nav class="navbar nav-lg py-3 px-2">
         <div class="me-auto">
-            <h4>My Transcripts</span></h4>
+            <h4>My Audio Files</span></h4>
         </div>
         <ul class="navbar-nav">
             <li class="nav-item align-self-end">
-                <a href="{% url 'order_transcript' %}" class="btn btn-warning text-whites">
-                    <i class="bi-file-earmark-plus"></i>
-                    <span>Order Transcript</span>
-                </a>
+                <button class="btn btn-warning text-whites">
+                <i class="bi-file-earmark-plus"></i>
+                <span>Order Transcript</span>
+                </button>
             </li>
         </ul>
     </nav>

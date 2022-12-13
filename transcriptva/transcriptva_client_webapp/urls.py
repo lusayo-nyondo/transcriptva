@@ -6,8 +6,10 @@ from .views import (
     sign_out,
     register,
 
+    orders_list,
+    order_transcript,
+
     transcripts_list,
-    audios_list,
 
     support
 )
@@ -19,9 +21,10 @@ urlpatterns = [
     path('sign_out', sign_out, name="sign_out"),
     path('register', register, name="register"),
     
-    path('transcripts', transcripts_list, name="transcripts"),
+    path('orders', orders_list, name="orders"),
+    path('order_transcript', order_transcript, name="order_transcript"),
 
-    path('audios', audios_list, name="audios"),
+    path('transcripts', transcripts_list, name="transcripts"),
 
     path('support', support, name="support" )
 ]
