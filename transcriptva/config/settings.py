@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,7 +14,11 @@ SECRET_KEY = 'django-insecure-f4_pxd#$xbtg!$9^6d(0tnlz!ke-uazdeq89^c*3u^qrlbm$w2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'transcriptva.com'
+]
 
 
 # Application definition
@@ -114,3 +119,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'transcriptva_client_webapp.User'
+
+MEDIA_URL = '/client_media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'client_media')

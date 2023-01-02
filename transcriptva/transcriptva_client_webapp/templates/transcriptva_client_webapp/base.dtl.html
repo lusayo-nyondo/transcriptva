@@ -21,7 +21,8 @@
       {% url 'transcripts' as transcripts_url %}
       {% url 'sign_out' as sign_out_url %}
       {% url 'order_transcript' as order_transcript_url %}
-
+      
+      {% with view_order_url='clienthub/view_order' %}
       <nav class="navbar navbar-dark bg-dark px-3 border-bottom">
         <!-- Navbar Content -->
         <div class="container-fluid">
@@ -65,7 +66,7 @@
                     <a
                       href="{{ orders_url }}"
                       class="btn py-3 border-bottom rounded-0 w-100 text-start
-                            {% if request.path == orders_url or request.path == order_transcript_url %} btn-warning text-white {% endif %}">
+                            {% if request.path == orders_url or request.path == order_transcript_url or view_order_url in request.build_absolute_uri %} btn-warning text-white {% endif %}">
                         <i class="bi-file-text-fill"></i>
                         <span>My Orders</span>
                     </a>
@@ -99,10 +100,11 @@
               {% endblock %}
               </div>
           </div>
-      </div>
+        </div>
       </main>
-
+      {% endwith %}
       <script src="{% static 'transcriptva_client_webapp/assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
       <script src="{% static 'transcriptva_client_webapp/assets/site/script.js' %}"></script>
+      {% block script %}{% endblock %}
     </body>
 </html>

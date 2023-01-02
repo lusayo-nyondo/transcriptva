@@ -6,7 +6,7 @@
 <div class="container-fluid px-0 shadow-sm">
     <nav class="navbar nav-lg py-3 px-2">
         <div class="me-auto">
-        <h4>My Orders</span></h4>
+            <h4>My Orders</span></h4>
         </div>
         <ul class="navbar-nav">
             <li class="nav-item align-self-end">
@@ -78,7 +78,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
                         <th scope="col">File Name</th>
                         <th scope="col">Uploaded On</th>
                         <th scope="col">Verbatim</th>
@@ -89,6 +89,49 @@
                 </thead>
 
                 <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <th scope="row">{{ order.id }} </th>
+                        <td>{{ order.file }}</td>
+                        <td>{{ order.created_on }}</td>
+                        <td>{{ order.verbatim }}</td>
+                        <td>{{ order.type }}</td>
+                        <td>
+                            <span class="badge bg-success">{{ order.status }}</span>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn border-0"
+                                    type="dropdown" id="dropdown_menu_button_1" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi-three-dots"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown_menu_button_1">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'view_order' order.pk %}">
+                                            <i class="bi-eye"></i>
+                                            <span>View Order Details</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-mic-fill text-success"></i>
+                                            <span class="text-success">View Transcript</span>
+                                        </a>
+                                    </li>
+                                    <hr>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="text-danger bi-exclamation-triangle"></i>
+                                            <span class="text-danger">Raise Issue</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <!--
                     <tr>
                         <th scope="row">1</th>
                         <td>Neffex - Great.mpt3</td>
@@ -144,7 +187,6 @@
                             </button>
                         </td>
                     </tr>
-
                     <tr>
                         <th scope="row">3</th>
                         <td>Newest File.mpt3</td>
@@ -160,6 +202,7 @@
                             </button>
                         </td>
                     </tr>
+                    -->
                 </tbody>
             </table>
         </div>

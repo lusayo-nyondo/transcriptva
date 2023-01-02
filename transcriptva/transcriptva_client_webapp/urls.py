@@ -8,6 +8,7 @@ from .views import (
 
     orders_list,
     order_transcript,
+    view_order,
 
     transcripts_list,
 
@@ -23,6 +24,7 @@ urlpatterns = [
     
     path('orders', orders_list, name="orders"),
     path('order_transcript', order_transcript, name="order_transcript"),
+    path('view_order/<int:order_id>', view_order, name="view_order"),
 
     path('transcripts', transcripts_list, name="transcripts"),
 

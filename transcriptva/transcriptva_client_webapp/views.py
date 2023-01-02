@@ -1,6 +1,7 @@
 from django.http import HttpResponse
+from django.core import serializers
 from django.template import loader
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 
 from django.contrib.auth import (
     authenticate,
@@ -8,7 +9,13 @@ from django.contrib.auth import (
     logout
 )
 
-from .models import User
+from .models import (
+    User,
+    Order,
+    Notification,
+    Transcript,
+    ServicePrice
+)
 
 def index(request):
     if not request.user.is_authenticated:
@@ -126,7 +133,13 @@ def transcripts_list(request):
         return redirect('clienthub')
 
     template = loader.get_template('transcriptva_client_webapp/transcripts/list.dtl.html')
-    context = {}
+    context = {
+        'transcripts': []
+    }
+
+    transcripts = Transcript.objects.all()
+
+    context['transcripts'] = transcripts
 
     return HttpResponse(template.render(
         context,
@@ -137,8 +150,14 @@ def orders_list(request):
     if not request.user.is_authenticated:
         return redirect('clienthub')
 
-    template = loader.get_template('transcriptva_client_webapp/orders/list.dtl.html')
-    context = {}
+    template = loader.get_template('transcriptva_client_webapp/orders/list.dtl.html')    
+    context = {
+        'orders': []
+    }
+
+    orders = Order.objects.all()
+
+    context['orders'] = orders
 
     return HttpResponse(template.render(
         context,
@@ -161,10 +180,76 @@ def order_transcript(request):
     if not request.user.is_authenticated:
         return redirect('clienthub')
 
-    template = loader.get_template('transcriptva_client_webapp/orders/order.dtl.html')
-    context = {}
+    service_prices = ServicePrice.objects.all()
+    price_list = serializers.serialize('json', service_prices)
+
+    if request.method == 'POST':
+        fields = request.POST
+        files = request.FILES
+
+        file = files['file_input']
+        duration = fields['duration']
+        type = fields['transcript_type_input']
+        accent = fields['accent_input']
+        verbatim = fields['verbatim_type_input']
+        speaker_identification = fields['speaker_identification_input']
+        number_of_speakers = fields['number_of_speakers_input']
+        timestamping = fields['timestamping_input']
+        notes = fields['notes_input']
+        amount_due = fields['amount_due']
+
+        # ORDER PRICE AND DURATION ARE ALWAYS RECHECKED BEFORE SUBMITTING THE ORDER
+        order = Order.objects.create()
+
+        order.owner = request.user
+        order.file = file
+        order.type = type
+        order.accent = accent
+        order.verbatim = verbatim
+        order.number_of_speakers = number_of_speakers
+        order.speaker_identification = speaker_identification
+        order.timestamping = timestamping
+        order.notes = notes
+        order.duration = duration
+        order.amount_due = amount_due
+
+        order.save()
+
+        redirect_url = 'view_order/{}'.format(
+            order.pk
+        )
+
+        return redirect(redirect_url)
+    else:
+        template = loader.get_template('transcriptva_client_webapp/orders/order.dtl.html')
+        context = {
+            'price_list': price_list,
+        }
+
+        return HttpResponse(template.render(
+            context,
+            request
+        ))
+
+def view_order(request, order_id):
+    if not request.user.is_authenticated:
+        return redirect('clienthub')
+
+    template = loader.get_template('transcriptva_client_webapp/orders/view.dtl.html')
+    context = {
+        'order': None,
+        'status': None,
+        'notification': None
+    }
+
+    order = Order.objects.get(
+        pk=order_id
+    )
+
+    context['order'] = order
 
     return HttpResponse(template.render(
         context,
         request
     ))
+

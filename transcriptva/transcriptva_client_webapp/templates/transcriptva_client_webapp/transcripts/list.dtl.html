@@ -79,38 +79,54 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">File Name</th>
-                        <th scope="col">Uploaded On</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Created On</th>
+                        <th scope="col">Completed On</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
+                    {% for transcript in transcripts %}
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Neffex - Great.mpt3</td>
-                        <td>2022, March, 12</td>
+                        <th scope="row">{{ transcript.pk }}</th>
+                        <td>{{ transcript.name }}</td>
+                        <td>{{ transcript.created_on }}</td>
+                        <td>{{ transcript.completed_on }}</td>
+                        <td>{{ transcript.status }}</td>
                         <td>
-                            <a class="btn btn-sm btn-success" href="#">Go to Transcript</a>
+                            <div class="dropdown">
+                                <button class="btn border-0"
+                                    type="dropdown" id="dropdown_menu_button_1" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi-three-dots"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdown_menu_button_1">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="bi-mic-fill text-success"></i>
+                                            <span class="text-success">Open Transcript In Editor</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'view_order' transcript.order.pk %}">
+                                            <i class="bi-file-text-fill"></i>
+                                            <span>Go To Order</span>
+                                        </a>
+                                    </li>
+                                    <hr>
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <i class="text-primary bi-file-earmark-word"></i>
+                                            <span class="text-primary">Export</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Dummy File.mpt3</td>
-                        <td>2022, March, 12</td>
-                        <td>
-                            <a class="btn btn-sm btn-warning" href="#">Transcribe</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Newest File.mpt3</td>
-                        <td>2022, March, 12</td>
-                        <td>
-                            <a class="btn btn-sm btn-primary" href="#">Transcribing...</a>
-                        </td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
