@@ -155,14 +155,14 @@
                         <pre class="m-0 p-0"><small id="price_per_minute">0.00</small><small>/min</small></pre>
                     </div>
                 </div>
-                
+
                 <div class="col-10 offset-2 mt-2 px-1">
                     <button class="btn btn-sm btn-success" type="submit">
                         <i class="bi-cart-check"></i>
                         <span>Proceed to Checkout</span>
                     </button>
                 </div>
-                
+
                 <div class="col-10 offset-2 px-1">
                     <hr>
                     <a href="{% url 'transcripts' %}" class="btn btn-sm btn-danger">
@@ -179,15 +179,15 @@
 <script>
     function convertHMS(value) {
         const sec = parseInt(value, 10); // convert value to number if it's string
-        
+
         let hours   = Math.floor(sec / 3600); // get hours
         let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
         let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
-        
+
         if (hours   < 10) { hours   = "0" + hours; }
         if (minutes < 10) { minutes = "0" + minutes; }
         if (seconds < 10) { seconds = "0" + seconds; }
-        
+
         return hours + ':' + minutes + ':' + seconds; // Return is HH : MM : SS
     }
 
@@ -239,23 +239,23 @@
         var every_speaker_timestamp = document.getElementById('every_speaker_timestamp');
 
         if (value == 'MACHINE_GENERATED') {
-            number_of_speakers_input.setAttribute('disabled', 'disabled');
-            verbatim_input.setAttribute('disabled', 'disabled');
-            every_speaker_timestamp.setAttribute('disabled', 'disabled');
+            number_of_speakers_input.setAttribute('readonly', 'readonly');
+            verbatim_input.setAttribute('readonly', 'readonly');
+            every_speaker_timestamp.setAttribute('readonly', 'readonly');
 
             if (timestamping_input.value == 'every_speaker') {
                 timestamping_input.value == 'no_timestamps';
             }
 
         } else if(value == 'HUMAN_GENERATED') {
-            number_of_speakers_input.removeAttribute('disabled');
-            verbatim_input.removeAttribute('disabled');
-            every_speaker_timestamp.removeAttribute('disabled');
+            number_of_speakers_input.removeAttribute('readonly');
+            verbatim_input.removeAttribute('readonly');
+            every_speaker_timestamp.removeAttribute('readonly');
         }
     });
 
     const selects = document.getElementsByTagName("select");
-    
+
     var s_i = 0;
     var s_l = selects.length;
 
@@ -272,7 +272,7 @@
         const number_of_speakers = document.getElementById('number_of_speakers_input').value.toUpperCase();
         const timestamping = document.getElementById('timestamping_input').value.toUpperCase();
         const speaker_identification = document.getElementById('speaker_identification_input').value.toUpperCase();
-        
+
         let price = 0.00;
 
         const price_per_minute = document.getElementById('price_per_minute');

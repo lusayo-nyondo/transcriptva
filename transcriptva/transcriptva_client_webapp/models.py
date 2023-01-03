@@ -64,7 +64,7 @@ class Order(models.Model):
         [ 'AWAITING_DISPUTE_RESOLUTION', 'AWAITING_DISPUTE_RESOLUTION']
     ]
 
-    def _build_upload_path(self):
+    def _build_upload_path(self, whatevs):
         return 'orders/{}'.format(
             self.owner.username
         )
