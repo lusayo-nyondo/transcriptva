@@ -1,0 +1,179 @@
+{% extends 'transcriptva_clienthub/base.dtl.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>Order Transcript</title>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-0 shadow-sm">
+    <nav class="navbar nav-lg py-3 px-2">
+        <div class="me-auto">
+            <h4>View Your Order</span></h4>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item align-self-end">
+                <a href="{% url 'order_transcript' %}" class="btn btn-warning text-whites">
+                    <i class="bi-file-earmark-plus"></i>
+                    <span>Order Transcript</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="flex-fill pr-4">
+    <div class="container p-4 m-2 shadow">
+        <div class="row py-2">
+            <div class="col-2 mt-0 pt-0">
+                <pre><strong>Status: </strong></pre>
+            </div>
+            <div class="col-10 mt-0 pt-0">
+                <p class="badge bg-warning">{{ order.status }}</p>                
+                {% if order.transcript %}
+                <a href="{% url 'view_transcript' order.transcript.pk %}" class="btn btn-sm btn-success">
+                    <i class="bi-mic-fill"></i>
+                    <span>View Transcript</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="file_input">
+                    <span>File: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                <p>{{ order.file }}</p>
+                <audio controls id="audio">
+                    <source src="{% get_media_prefix %}{{ order.file }}" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="duration">
+                    <span>Duration: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                <small id="duration">{{ order.duration }}</small>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="transcript_type_input">
+                    <span>Type: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                <p>{{ order.type }}</p>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="verbatim_type_input">
+                    <span>Verbatim Type: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                {{ order.verbatim }}
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="number_of_speakers_input">
+                    <span>Number of Speakers: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                <p>{{ order.number_of_speakers }}</p>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="speaker_identification_input">
+                    <span>Speaker Identification: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                <p>{{ order.speaker_identification }}</p>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="timestamping_input">
+                    <span>Timestamping: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                <p>{{ order.timestamping }}</p>
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="accent_input">
+                    <span>Accent: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                {{ order.accent }}
+            </div>
+        </div>
+        <div class="row py-2">
+            <div class="col-2">
+                <label class="form-label" aria-label-for="notes_input">
+                    <span>Notes: </span>
+                </label>
+            </div>
+            <div class="col-10">
+                <textarea class="form-control" disabled="disabled" name="notes_input" placeholder="No notes.">{{ order.notes }}</textarea>
+            </div>
+        </div>
+        <hr>
+        <div class="row py-2">
+            <div class="col-2 pt-0">
+                <pre><strong>Total: </strong></pre>
+            </div>
+
+            <div class="col-10 pt-0">
+                <pre><strong><span id="currency">$</span><span id="total">{{ order.amount_due }}</span></strong></pre>
+            </div>
+        </div>
+        <hr class="mt-0">
+
+        <div class="col-10 offset-2 px-1">
+            <a href="{% url 'submit_report' %}" class="btn btn-sm btn-danger">
+                <i class="bi-exclamation-triangle"></i>
+                <span>Raise Issue</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    function convertHMS(value) {
+        const sec = parseInt(value, 10); // convert value to number if it's string
+
+        let hours   = Math.floor(sec / 3600); // get hours
+        let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
+        let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
+
+        if (hours   < 10) { hours   = "0" + hours; }
+        if (minutes < 10) { minutes = "0" + minutes; }
+        if (seconds < 10) { seconds = "0" + seconds; }
+
+        return hours + ':' + minutes + ':' + seconds; // Return is HH : MM : SS
+    }
+
+    window.onload = function(event) {
+        var duration_output = document.getElementById('duration');
+        var duration_secs = Math.round(duration_output.innerHTML);
+        var duration_formatted = convertHMS(duration_secs);
+        duration_output.innerHTML = duration_formatted;
+    };
+</script>
+{% endblock %}

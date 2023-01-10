@@ -1,0 +1,21 @@
+[
+{
+    "model": "transcriptva_clienthub.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$390000$S5ceWRr7z63tVmyNGTOWor$1nQQgRZWxeEqEAbVI1Xful0YUV2elo1eCXLe4LXAxsw=",
+        "last_login": "2022-12-31T11:06:11.995Z",
+        "is_superuser": true,
+        "username": "neetlord",
+        "first_name": "Lusayo",
+        "last_name": "Nyondo",
+        "email": "lnyondo@transcriptva.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2022-12-30T17:32:12.841Z",
+        "company": null,
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

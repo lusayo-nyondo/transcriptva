@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html data-bs-theme="dark">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        {% block title %}
+        <title>Transcript VA - Client</title>
+        {% endblock %}
+
+        <link rel="shortcut icon" href="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo.png' %}"  type="image/x-icon">
+
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/bootstrap-icons/bootstrap-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/site/style.css' %}">
+    </head>
+    <body class="vh-100 d-flex flex-column">
+      {% url 'clienthub' as client_hub_url %}
+      {% url 'notifications' as notifications_url %}
+      {% url 'orders' as orders_url %}
+      {% url 'transcripts' as transcripts_url %}
+      {% url 'sign_out' as sign_out_url %}
+      {% url 'order_transcript' as order_transcript_url %}
+      
+      {% with view_order_url='clienthub/view_order' %}
+      <nav class="navbar navbar-dark bg-dark px-3 border-bottom">
+        <!-- Navbar Content -->
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'clienthub' %}">
+            <img class="img-fluid"
+              style="height: 50px;"
+              alt="TranscriptVA"
+              src="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo-alternate-colors.png' %}">
+          </a>
+          <ul class="navbar-nav d-flex flex-row">
+            <li class="nav-item mx-2">
+              <a class="btn btn-sm text-white" href="{% url 'account' %}">
+                <i class="bi-person-circle"></i>
+                <span><strong>My Account</strong></span>
+              </a>
+            </li>
+
+            <li class="nav-item ml-2">
+              <a class="btn btn-sm text-white" href="/clientsupport">
+                <i class="bi-info-circle"></i>
+                <span><strong>Support</strong></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <main class="flex-fill container-fluid">
+        <div class="row h-100">
+          <!-- Sidebar -->
+          <div class="col-2
+              border border-right
+              h-100 px-0 pb-0
+              d-flex flex-column
+              bg-white
+              shadow-sm">
+              {% block sidebar %}
+              <div class="flex-fill py-3 px-0">
+                <ul class="nav">
+                  <li class="nav-item w-100">
+                    <a
+                      href="{{ client_hub_url }}"
+                      class="btn py-3 border-bottom rounded-0 w-100 text-start
+                            {% if request.path == client_hub_url or request.path == notifications_url %} btn-warning text-white {% endif %}">
+                        <i class="bi-house-fill"></i>
+                        <span>Home</span>
+                    </a>
+                  </li>
+                  <li class="nav-item w-100">
+                    <a
+                      href="{{ orders_url }}"
+                      class="btn py-3 border-bottom rounded-0 w-100 text-start
+                            {% if request.path == orders_url or request.path == order_transcript_url or view_order_url in request.build_absolute_uri %} btn-warning text-white {% endif %}">
+                        <i class="bi-file-text-fill"></i>
+                        <span>My Orders</span>
+                    </a>
+                  </li>
+                  <li class="nav-item w-100">
+                    <a
+                      href="{{ transcripts_url }}"
+                      class="btn py-3 border-bottom rounded-0 w-100 text-start
+                            {% if request.path == transcripts_url %} btn-warning text-white {% endif %}">
+                        <i class="bi-mic-fill"></i>
+                        <span>My Transcripts</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <ul class="nav">
+                <li class="nav-item w-100">
+                  <a href="{{ sign_out_url }}"
+                    class="btn py-3 text-white bg-dark rounded-0 w-100 text-start">
+                    <i class="bi-box-arrow-left"></i>
+                    <span>Logout</span>
+                  </a>
+                </li>
+              </ul>
+              {% endblock %}
+          </div>
+          <!-- Main Content -->
+          <div class="col-10 position-relative px-0">
+            <div class="px-0 position-absolute h-100 w-100">
+              <div class="d-flex flex-column h-100 overflow-y-auto">
+              {% block topbar %}{% endblock %}
+              {% block body %}
+              {% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      {% endwith %}
+      <script src="{% static 'transcriptva_clienthub/assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'transcriptva_clienthub/assets/site/script.js' %}"></script>
+      {% block script %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'transcriptva_clienthub/base.dtl.html' %}
+
+{% load static %}
+
+{% block title %}
+<title>TranscriptVA - My Account</title>
+{% endblock %}
+
+{% block topbar %}
+    <div class="container w-100 mx-0 py-3 shadow-sm">
+        <a href="{% url 'clienthub' %}" class="btn btn-warning btn-sm">
+            <i class="bi-arrow-left"></i>
+            <span>Back To Client Hub</span>
+        </a>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="flex-fill py-3 px-0">
+    <div class="w-100 px-2 mb-3">
+        <input type="search" placeholder="Search" class="form-control form-control-sm">
+    </div>
+    <hr class="my-0">
+    <ul class="nav">
+      <li class="nav-item w-100">
+        <a href="#"
+          class="btn py-3 border-bottom rounded-0 w-100 text-start">
+            <i class="bi-arrow-right"></i>
+            <span>Personal Details</span>
+        </a>
+      </li>
+      <li class="nav-item w-100">
+        <a href="#"
+          class="btn py-3 border-bottom rounded-0 w-100 text-start">
+            <i class="bi-arrow-right"></i>
+            <span>Payment Details</span>
+        </a>
+      </li>
+      <li class="nav-item w-100">
+        <a href="#"
+          class="btn py-3 border-bottom rounded-0 w-100 text-start">
+            <i class="bi-arrow-right"></i>
+            <span>My Coupons</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <ul class="nav">
+    <li class="nav-item w-100">
+      <a href="#"
+        class="btn btn-danger py-3 rounded-0 w-100 text-start">
+        <i class="bi-person-x-fill"></i>
+        <span>Delete Account</span>
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block body %}
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <h2>Account Page</h2>
+    </div>
+{% endblock %}

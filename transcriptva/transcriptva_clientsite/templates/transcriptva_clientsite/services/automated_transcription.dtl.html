@@ -1,0 +1,49 @@
+{% extends 'transcriptva_clientsite/base.dtl.html' %}
+{% load static %}
+{% block title %}
+<title>Automated Transcription Service</title>
+{% endblock %}
+{% block body %}
+<section data-bs-version="5.1" class="features15 cid-tkmnuXF3rK" id="features16-e">
+    <div class="container">
+        <div class="content-wrapper py-5">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg">
+                    <div class="text-wrapper">
+                        <h6 class="card-title mbr-fonts-style display-2">
+                            <strong>Automated Transcription</strong>
+                        </h6>
+                        <h3>
+                            <strong>From <strong class="color-primary">$0.05</strong> / minute</strong>
+                        </h3>
+                        <p class="mbr-text mbr-fonts-style mb-4 display-4">Our automated transcription makes use of our text to speech AI technology to turn your audio into text.</p>
+                        <p>For transcription scenarios that require low accuracy and have high quality audio, this might be your best choice.</p>
+                        <p><strong>The best use cases for this option are:</strong></p>
+                        <ul>
+                            <li>High quality and clear audio.</li>
+                            <li>No background noise</li>
+                            <li>Two speakers or less.</li>
+                            <li>No speaker interruptions through crosstalk.</li>
+                        </ul>
+                        
+                        <p><strong>Do not use this option for: </strong></p>
+                        <ul>
+                            <li>Audio with more than two speakers.</li>
+                            <li>Audio with speaker interruptions and breaks</li>
+                            <li>A transcript that requires timestamping and speaker identification</li>
+                        </ul>
+                        <div class="mbr-section-btn mt-3">
+                            <a class="btn btn-warning display-4" href="{% url 'manual_transcription_service' %}">Place Order</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="image-wrapper">
+                        <img src="{% static 'transcriptva_clientsite/assets/images/automated_transcription.webp' %}" alt="Automated Transcription Service - Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

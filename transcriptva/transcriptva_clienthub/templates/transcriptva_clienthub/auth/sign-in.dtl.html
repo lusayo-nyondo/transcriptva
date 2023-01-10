@@ -1,0 +1,69 @@
+{% extends 'transcriptva_clienthub/auth/base-auth.dtl.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>TranscriptVA - Sign In</title>
+{% endblock %}
+
+{% block body %}
+    <div class="row h-100">
+        <div class="col col-6 px-0">
+            <div class="card text-bg-dark rounded-0 border-0">
+                <img class="card-img"
+                    alt="Sign In Image"
+                    src="{% static 'transcriptva_clienthub/assets/images/sign-in-tva-sized.png' %}">
+                <div class="card-img-overlay tva-primary-overlay-bg">
+                    <h2 class="card-title">
+                        <span>Hassle . </span>
+                        <br>
+                        <span>Free .</span>
+                        <br>
+                        <span>Solutions</span>
+                    </h2>
+                    <p class="card-text">The only transcription platform you'll ever need.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-6 bg-light p-3">
+            <form class="form bg-white p-2" method="POST" action="{% url 'sign_in' %}">
+                {% csrf_token %}
+                <h2 class="text-center my-3">Sign In</h2>
+                <div class="mb-3 row">
+                    <label for="username_input" class="col-2 col-form-label">Username: </label>
+                    <div class="col-10">
+                        <input type="text" class="form-control" name="username_input" id="username_input">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="password_input" class="col-2 col-form-label">Password: </label>
+                    <div class="col-10">
+                        <input type="password" class="form-control" name="password_input" id="password_input">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <div class="col col-10 offset-2">
+                        <button class="btn btn-warning mr-2">
+                            <i class="bi-bow-arrow-right"></i>
+                            <span>Sign In</span>
+                        </button>
+                        <a href="{% url 'register' %}" class="btn btn-outline-secondary">
+                            <span>Register</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col col-10 offset-2">
+                        <hr>
+                        <a href="#" class="btn btn-warning">
+                            <span>Sign In with Google</span>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% load cms_tags sekizai_tags %}
+{% load menu_tags %}
+
+{% load static %}
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% page_attribute "page_title" %}</title>
+        
+        {% render_block "css" %}
+
+        <link rel="shortcut icon" href="{% static 'transcriptva_client_webapp/assets/images/transcript-va-logo.png' %}"  type="image/x-icon">
+
+        <link rel="stylesheet" href="{% static 'transcriptva_client_webapp/assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_client_webapp/assets/bootstrap-icons/bootstrap-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_client_webapp/assets/site/style.css' %}">
+    </head>
+    <body class="vh-100 d-flex flex-column">
+        {% cms_toolbar %}
+        <nav class="navbar navbar-dark bg-dark px-3 border-bottom">
+            <!-- Navbar Content -->
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'clienthub' %}">
+                <img class="img-fluid"
+                  style="height: 50px;"
+                  alt="TranscriptVA"
+                  src="{% static 'transcriptva_client_webapp/assets/images/transcript-va-logo-alternate-colors.png' %}">
+              </a>
+              <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item mx-2">
+                  <a class="btn btn-sm text-white" href="{% url 'account' %}">
+                    <i class="bi-person-circle"></i>
+                    <span><strong>My Account</strong></span>
+                  </a>
+                </li>
+    
+                <li class="nav-item ml-2">
+                  <a class="btn btn-sm text-white" href="/clientsupport">
+                    <i class="bi-info-circle"></i>
+                    <span><strong>Support</strong></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+
+        <main class="flex-fill container-fluid">
+            <div class="row h-100">
+                <!-- Sidebar -->
+                <div class="col-2
+                    border border-right
+                    h-100 px-0 pb-0
+                    d-flex flex-column
+                    bg-white
+                    shadow-sm">
+                    <div class="flex-fill pt-0 px-0">
+                        <ul class="nav">
+                            {% show_menu 1 %}
+                        </ul>
+                    </div>
+                    <ul class="nav">
+                      <li class="nav-item w-100">
+                        <a href="{% url 'submit_report' %}"
+                          class="btn btn-warning text-white py-3 rounded-0 w-100 text-start">
+                          <i class="bi-telephone-plus"></i>
+                          <span><strong>Raise Support Ticket</strong></span>
+                        </a>
+                      </li>
+                    </ul>
+                </div>
+                <!-- Main Content -->
+                <div class="col-10 position-relative px-0">
+                    <div class="px-0 position-absolute h-100 w-100">
+                        <div class="d-flex flex-column h-100 overflow-y-auto">
+                            <div class="container w-100 mx-0 py-3 shadow-sm">
+                                <a href="{% url 'clienthub' %}" class="btn btn-warning btn-sm">
+                                    <i class="bi-arrow-left"></i>
+                                    <span>Back To Client Hub</span>
+                                </a>
+                            </div>
+                            <div class="shadow-sm flex-fill">
+                                <div class="overflow-y-scroll overflow-x-hidden h-100 w-100 m-2 p-3 shadow-sm">
+                                {% placeholder "content" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        {% placeholder "sidebar" %}
+        {% render_block "js" %}
+    </body>
+</html>

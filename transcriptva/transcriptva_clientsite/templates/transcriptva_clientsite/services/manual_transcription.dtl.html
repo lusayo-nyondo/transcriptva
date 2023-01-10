@@ -1,0 +1,46 @@
+{% extends 'transcriptva_clientsite/base.dtl.html' %}
+{% load static %}
+{% block title %}
+<title>Manual Transcription Service</title>
+{% endblock %}
+{% block body %}
+<section data-bs-version="5.1" class="features16 cid-tkmnqSA3G5" id="features17-c">
+    <div class="container">
+        <div class="content-wrapper py-5">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div class="image-wrapper">
+                        <img src="{% static 'transcriptva_clientsite/assets/images/manual_transcription.webp' %}" alt="Machine Transcription - Thumbnail">
+                    </div>
+                </div>
+                <div class="col-12 col-lg">
+                    <div class="text-wrapper">
+                        <h6 class="card-title mbr-fonts-style display-2">
+                            <strong>Manual Transcription</strong>
+                        </h6>
+                        <h3>
+                            <strong>From <strong class="color-primary">$0.59</strong> / minute</strong>
+                        </h3>
+                        <p class="mbr-text mbr-fonts-style mb-4 display-4">Our manual transcription services offer 99% accuracy.</p>
+                        <p><strong>This service offers the following:</strong></p>
+                        <ul>
+                            <li>99% accuracy</li>
+                            <li>Timestamping available</li>
+                            <li>Speaker idenfication available</li>
+                            <li>Clean and Full Verbatim</li>
+                            <li>Customizable Verbatim</li>
+                            <li>Multiple output formats</li>
+                        </ul>
+                        <p>To get an exact quote for your needs, submit your audio by initiating the process to place an order below: </p>
+                        <div class="mbr-section-btn mt-3">
+                            <a class="btn btn-primary display-4" href="{% url 'manual_transcription_service' %}">
+                                Place Order
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

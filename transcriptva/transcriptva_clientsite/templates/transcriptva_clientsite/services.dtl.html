@@ -1,0 +1,81 @@
+{% extends 'transcriptva_clientsite/base.dtl.html' %}
+{% load static %}
+{% block title %}
+<title>Services</title>
+{% endblock %}
+{%block body %}
+<section data-bs-version="5.1" class="info3 cid-tkmnNKh0Jz" id="info3-f">    
+    <div class="mbr-overlay" style="opacity: 0.6; background-color: rgb(140, 82, 255);">
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="card col-12 col-lg-10">
+                <div class="card-wrapper">
+                    <div class="card-box align-center">
+                        <h4 class="card-title mbr-fonts-style align-center mb-4 display-1">
+                            <strong>Our Services</strong>
+                        </h4>
+                        <p class="mbr-text mbr-fonts-style mb-4 display-7">We provide various services and packages to meet your needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section data-bs-version="5.1" class="features16 cid-tkmnqSA3G5" id="features17-c">
+    <div class="container">
+        <div class="content-wrapper py-5">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div class="image-wrapper">
+                        <img src="{% static 'transcriptva_clientsite/assets/images/manual_transcription.webp' %}" alt="Machine Transcription - Thumbnail">
+                    </div>
+                </div>
+                <div class="col-12 col-lg">
+                    <div class="text-wrapper">
+                        <h6 class="card-title mbr-fonts-style display-2">
+                            <strong>Manual Transcription</strong>
+                        </h6>
+                        <h3>
+                            <strong>From <strong class="color-primary">$0.59</strong></strong>
+                        </h3>
+                        <p class="mbr-text mbr-fonts-style mb-4 display-4">We offer high quality transcripts delivered with attention to detail and accuracy.</p>
+                        <div class="mbr-section-btn mt-3">
+                            <a class="btn btn-primary display-4" href="{% url 'manual_transcription_service' %}">
+                                Learn more
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section data-bs-version="5.1" class="features15 cid-tkmnuXF3rK" id="features16-e">
+    <div class="container">
+        <div class="content-wrapper py-5">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg">
+                    <div class="text-wrapper">
+                        <h6 class="card-title mbr-fonts-style display-2">
+                            <strong>Automated Transcription</strong>
+                        </h6>
+                        <h3>
+                            <strong>From <strong class="color-primary">$0.05</strong></strong>
+                        </h3>
+                        <p class="mbr-text mbr-fonts-style mb-4 display-4">Use our AI generated transcription service to get quick reliable transcripts.</p>
+                        <div class="mbr-section-btn mt-3">
+                            <a class="btn btn-warning display-4" href="{% url 'automated_transcription_service' %}">Learn more</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="image-wrapper">
+                        <img src="{% static 'transcriptva_clientsite/assets/images/automated_transcription.webp' %}" alt="Automated Transcription Service - Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
