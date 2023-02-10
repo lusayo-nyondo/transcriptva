@@ -21,6 +21,7 @@ ALLOWED_HOSTS = [
     'cassacassa.pythonanywhere.com'
 ]
 
+SITE_URL = 'http://localhost:8000'
 
 # Application definition
 
@@ -29,6 +30,9 @@ INSTALLED_APPS = [
     'transcriptva_clientsite', # The main business website.
     'transcriptva_clienthub', # The client webapp for the platform.
     'transcriptva_clientsupport',
+    'transcriptva_clientaccount',
+
+    'transcriptva_admin', # Imports models from all dependent apps so include it last.
 
     ### DJANGO CMS STUFF FOR THE SUPPORT AND BLOG PARTS OF THE APP
     'sekizai',
@@ -180,7 +184,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public_static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'transcriptva_clienthub.User'
+AUTH_USER_MODEL = 'transcriptva_clientaccount.User'
 
 MEDIA_URL = '/client_media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'client_media')

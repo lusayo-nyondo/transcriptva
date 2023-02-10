@@ -2,6 +2,9 @@
 
 {% load static %}
 
+{% block title %}
+<title>Transcript VA - My Orders</title>
+{% endblock %}
 {% block body %}
 <div class="container-fluid px-0 shadow-sm">
     <nav class="navbar nav-lg py-3 px-2">
@@ -20,7 +23,7 @@
 </div>
 <div class="flex-fill">
     <!-- Filters -->
-    <div class="container py-2">
+    <div class="p-2">
         <fieldset class="border p-2">
             <legend class="w-auto">
                 <i class="bi-funnel"></i>
@@ -35,37 +38,31 @@
                             </label>
                         </div>
                         <div class="col-9">
-                            <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example" name="status_select">
-                                <option selected value="all">All</option>
-                                <option value="transcribed">Transcribed</option>
-                                <option value="transcribing">Currently transcribing</option>
-                                <option value="untranscribed">Untranscribed</option>
+                            <select id="status_select" class="form-select form-select-sm mb-3" aria-label=".form-select-lg example" name="status_select">
+                                <option value="all">All</option>
+                                <option {% if status == 'AWAITING_PAYMENT' %} selected {% endif %} value="awaiting_payment">Awaiting Payment</option>
+                                <option {% if status == 'AWAITING_ASSIGNMENT' %} selected {% endif %} value="awaiting_assignment">Awaiting Assignment</option>
+                                <option {% if status == 'CURRENTLY_IN_WORK_QUEUE' %} selected {% endif %} value="currently_in_work_queue">Currently transcribing</option>
+                                <option {% if status == 'COMPLETED' %} selected {% endif %} value="completed">Completed</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="col-4">
-                    <input class="form-control form-control-sm" list="filename_options" id="filename_search" placeholder="Type to search...">
-                    <datalist id="filename_options">
-                        <option value="audio 1">
-                        <option value="neffex great">
-                        <option value="dummy file">
-                        <option value="sample recording">
-                        <option value="sample 2">
-                    </datalist>
+                    <input {% if search_term %} value="{{ search_term }}" {% endif %}
+                        type="text" id="filename_search" class="form-control form-control-sm" id="filename_search" placeholder="Search by filename...">
                 </div>
                 <div class="col-4">
                     <div class="row">
                         <div class="col-3">
-                            <label class="form-label" aria-label-for="orderby_select">
+                            <label class="form-label" aria-label-for="order_by_select">
                                 <span>Order By: </span>
                             </label>
                         </div>
                         <div class="col-9">
-                            <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example" name="orderby_select">
-                                <option selected value="all">Name</option>
-                                <option value="transcribed">Date uploaded</option>
-                                <option value="transcribing">Status</option>
+                            <select class="form-select form-select-sm mb-3" id="order_by_select" aria-label=".form-select-lg example" name="order_by_select">
+                                <option {% if order_by == 'date_desc' %} selected {% endif %} value="date_desc">Date (New to Old)</option>
+                                <option {% if order_by == 'date_asc' %} selected {% endif %} value="date_asc">Date (Old to New)</option>
                             </select>
                         </div>
                     </div>
@@ -73,16 +70,14 @@
             <div>
         </fieldset>
     </div>
-    <div class="container py-2">
+    <div class="p-2">
         <div class="border">
             <table class="table table-hover">
                 <thead>
-                    <tr>
+                    <tr class="table-dark">
                         <th scope="col">ID</th>
-                        <th scope="col">File Name</th>
-                        <th scope="col">Uploaded On</th>
-                        <th scope="col">Verbatim</th>
-                        <th scope="col">Type</th>
+                        <th scope="col">Reference</th>
+                        <th scope="col">Created On</th>
                         <th scope="col">Status</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -92,12 +87,10 @@
                     {% for order in orders %}
                     <tr>
                         <th scope="row">{{ order.id }} </th>
-                        <td>{{ order.file }}</td>
+                        <td>{{ order.reference }}</td>
                         <td>{{ order.created_on }}</td>
-                        <td>{{ order.verbatim }}</td>
-                        <td>{{ order.type }}</td>
                         <td>
-                            <span class="badge bg-success">{{ order.status }}</span>
+                            <span class="badge{% if order.status == 'COMPLETED' %} bg-success{% elif order.status == 'CANCELED' %} bg-danger{% elif order.status == 'AWAITING_PAYMENT' %} bg-warning {% else %} bg-info{% endif %}">{{ order.get_status_display }}</span>
                         </td>
                         <td>
                             <div class="dropdown">
@@ -113,6 +106,14 @@
                                             <span>View Order Details</span>
                                         </a>
                                     </li>
+                                    {% if order.status == 'AWAITING_PAYMENT' %}
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'make_order_payment' order.id %}">
+                                            <i class="bi-credit-card text-success"></i>
+                                            <span class="text-success">Make Payment</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     {% if order.transcript %}
                                     <li>
                                         <a class="dropdown-item" href="{% url 'view_transcript' order.transcript.pk %}">
@@ -123,7 +124,7 @@
                                     {% endif %}
                                     <hr>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="{% url 'raise_order_issue' order.pk %}">
                                             <i class="text-danger bi-exclamation-triangle"></i>
                                             <span class="text-danger">Raise Issue</span>
                                         </a>
@@ -134,9 +135,87 @@
                     </tr>
                     {% endfor %}
                 </tbody>
+
+                {% if page_obj.paginator.num_pages > 1 %}
+                <tfoot>
+                    <tr>
+                        <td colspan="7">
+                            <div class="w-100 d-flex flex-fill">
+                                <ul class="pagination mx-auto my-0">
+                                    <li class="page-item{% if not page_obj.has_previous %} disabled{% endif %}">
+                                        <button
+                                            {% if page_obj.has_previous %}onclick='go_to_page({{ page_obj.number|add:"-1" }})'{% else %} disabled {% endif %}
+                                            type="button" class="page-link" id="previous_page_button">Previous</button>
+                                    </li>
+                                    <li class="page-item">
+                                        <div class="dropdown">
+                                            <button type="button" class="page-link dropdown-toggle" id="current_page_button" data-bs-toggle="dropdown" aria-expanded="false">
+                                              <span id="current_page_number">{{ page_obj.number }}</span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                {% for i in paginator.page_range %}
+                                                <li>
+                                                    <button onclick="go_to_page({{ i }})" type="button" id="select_page_button_{{ i }}" class="dropdown-item">{{ i }}</button>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="page-item{% if not page_obj.has_next %} disabled{% endif %}">
+                                        <button
+                                            {% if page_obj.has_next %} onclick='go_to_page({{ page_obj.number|add:"1" }})' {% else %} disabled {% endif %}
+                                            type="button" class="page-link" id="next_page_button">Next</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                {% endif %}
             </table>
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block script %}
+<script>
+const status_select = document.getElementById('status_select');
+const order_by_select = document.getElementById('order_by_select');
+const search_input = document.getElementById('filename_search');
+
+const BASE_URL = "{% url 'orders' %}";
+
+function get_filters_url() {
+    let status = status_select.value;
+    let order_by = order_by_select.value;
+    let search_term = search_input.value;
+    
+    let url = BASE_URL + '?status=' + status + '&order_by=' + order_by + '&search_term=' + search_term;
+
+    return url;
+}
+
+function apply_filters() {
+    let url = get_filters_url();
+    document.location.assign(url);
+}
+
+function go_to_page(page_number) {
+    let url = get_filters_url() + '&page_num=' + page_number;
+    document.location.assign(url);
+}
+
+status_select.addEventListener('change', e => {
+    apply_filters();    
+});
+
+order_by_select.addEventListener('change', e => {
+    apply_filters();
+});
+
+search_input.addEventListener('keyup', e => {
+    if (e.key == 'Enter') apply_filters();
+});
+</script>
 {% endblock %}

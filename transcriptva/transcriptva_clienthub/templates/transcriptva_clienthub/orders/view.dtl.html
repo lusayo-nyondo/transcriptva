@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-<title>Order Transcript</title>
+<title>Transcript VA - View Order</title>
 {% endblock %}
 
 {% block body %}
@@ -22,115 +22,150 @@
         </ul>
     </nav>
 </div>
-<div class="flex-fill pr-4">
-    <div class="container p-4 m-2 shadow">
-        <div class="row py-2">
-            <div class="col-2 mt-0 pt-0">
-                <pre><strong>Status: </strong></pre>
+<div class="flex-fill">
+    <div class="border p-4 m-2 shadow-sm">
+        <div class="border p-4">
+            <div class="row py-2">
+                <div class="col-2 mt-0 pt-0">
+                    <pre><strong>Status: </strong></pre>
+                </div>
+                <div class="col-10 mt-0 pt-0">
+                    <p class="badge{% if order.status == 'COMPLETED' %} bg-success{% elif order.status == 'CANCELED' %} bg-danger{% elif order.status == 'AWAITING_PAYMENT' %} bg-warning {% else %} bg-info{% endif %}">{{ order.get_status_display }}</p>
+                
+                    {% if order.status == 'AWAITING_PAYMENT' %}
+                    <p>
+                        <a href="{% url 'make_order_payment' order.pk %}" class="btn btn-success btn-sm">
+                            <i class="bi-credit-card"></i>
+                            <span>Make Payment</span>
+                        </a>
+                    </p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="col-10 mt-0 pt-0">
-                <p class="badge bg-warning">{{ order.status }}</p>                
-                {% if order.transcript %}
-                <a href="{% url 'view_transcript' order.transcript.pk %}" class="btn btn-sm btn-success">
-                    <i class="bi-mic-fill"></i>
-                    <span>View Transcript</span>
-                </a>
-                {% endif %}
+            <div class="row py-2">
+                <div class="col-2">
+                    <pre><strong>Customer: </strong></pre>
+                </div>
+                <div class="col-10">
+                    <pre><strong>{{ order.owner }}</strong></pre>
+                </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="reference_input">
+                        <span><strong>Reference: </strong></span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <pre><strong>{{ order.reference }}</strong></pre>
+                </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-2">
+                    <label class="form-label" aria-label-for="notes_input">
+                        <span><strong>Notes: </strong></span>
+                    </label>
+                </div>
+                <div class="col-10">
+                    <textarea class="form-control" readonly name="notes_input" placeholder="No notes.">{{ order.notes }}</textarea>
+                </div>
             </div>
         </div>
 
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="file_input">
-                    <span>File: </span>
-                </label>
+        <div class="border p-4 my-2">
+            <p class="lead"><strong>Transcripts</strong></p>
+
+            {% for transcript in order.transcripts %}
+            <div class="border p-2 mb-2">
+                <a href="{% url 'view_transcript' transcript.pk %}"><pre>{{ transcript }}</pre></a>
+
+                <div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="file_input">
+                                <span><strong>File: </strong></span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            <p><strong>{{ transcript.file }}</strong></p>
+                            <audio controls id="audio">
+                                <source src="{% get_media_prefix %}{{ transcript.file }}" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="duration">
+                                <span><strong>Duration: </strong></span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            <small id="duration">{{ transcript.duration }}</small>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="transcript_type_input">
+                                <span><strong>Type: </strong></span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            <p>{{ transcript.get_type_display }}</p>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="verbatim_type_input">
+                                <span><strong>Verbatim Type: </strong></span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            {{ transcript.get_verbatim_display }}
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="number_of_speakers_input">
+                                <span><strong>Number of Speakers: </strong></span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            <p>{{ transcript.get_number_of_speakers_display }}</p>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="speaker_identification_input">
+                                <span><strong>Speaker Identification: </strong></span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            <p>{{ transcript.get_speaker_identification_display }}</p>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="timestamping_input">
+                                <span>Timestamping: </span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            <p>{{ transcript.get_timestamping_display }}</p>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-2">
+                            <label class="form-label" aria-label-for="accent_input">
+                                <span>Accent: </span>
+                            </label>
+                        </div>
+                        <div class="col-10">
+                            {{ transcript.get_accent_display }}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-10">
-                <p>{{ order.file }}</p>
-                <audio controls id="audio">
-                    <source src="{% get_media_prefix %}{{ order.file }}" type="audio/mpeg">
-                </audio>
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="duration">
-                    <span>Duration: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                <small id="duration">{{ order.duration }}</small>
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="transcript_type_input">
-                    <span>Type: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                <p>{{ order.type }}</p>
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="verbatim_type_input">
-                    <span>Verbatim Type: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                {{ order.verbatim }}
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="number_of_speakers_input">
-                    <span>Number of Speakers: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                <p>{{ order.number_of_speakers }}</p>
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="speaker_identification_input">
-                    <span>Speaker Identification: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                <p>{{ order.speaker_identification }}</p>
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="timestamping_input">
-                    <span>Timestamping: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                <p>{{ order.timestamping }}</p>
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="accent_input">
-                    <span>Accent: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                {{ order.accent }}
-            </div>
-        </div>
-        <div class="row py-2">
-            <div class="col-2">
-                <label class="form-label" aria-label-for="notes_input">
-                    <span>Notes: </span>
-                </label>
-            </div>
-            <div class="col-10">
-                <textarea class="form-control" disabled="disabled" name="notes_input" placeholder="No notes.">{{ order.notes }}</textarea>
-            </div>
+            {% endfor %}
         </div>
         <hr>
         <div class="row py-2">
@@ -143,9 +178,8 @@
             </div>
         </div>
         <hr class="mt-0">
-
-        <div class="col-10 offset-2 px-1">
-            <a href="{% url 'submit_report' %}" class="btn btn-sm btn-danger">
+        <div class="col-12 px-1">
+            <a href="{% url 'raise_order_issue' order.pk %}" class="btn btn-sm btn-danger">
                 <i class="bi-exclamation-triangle"></i>
                 <span>Raise Issue</span>
             </a>

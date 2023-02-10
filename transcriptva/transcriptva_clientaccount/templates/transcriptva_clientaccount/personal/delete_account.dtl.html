@@ -1,0 +1,36 @@
+{% extends 'transcriptva_clientaccount/base.dtl.html' %}
+
+{% block title %}
+<title>Transcript VA - Change Password</title>
+{% endblock %}
+
+{% block form %}
+<form class="form" action="{% url 'change_password' %}" method="POST">
+    {% csrf_token %}
+    <div class="row my-1">
+        <div class="col-12">
+            <div class="alert alert-danger mb-0">
+                <p class="lead">Are you sure you want to delete your account?</p>
+                <input type="password" placeholder="Enter Password" class="form-control my-1">
+                <button type="button" class="btn btn-danger my-1">
+                    <i class="bi-save"></i>
+                    <span>Delete My Account</span>
+                </button>
+            </div>
+            <pre class="mx-5 mb-0"><small>Note: This won't immeditiately remove your account from our servers, but you will lose access to your account while we process the deletion.</small></pre>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr class="mt-0">
+            <a href="{% url 'personal_details' %}" class="nav-link">
+                <i class="bi-arrow-left"></i>
+                <span>Back to personal details</span>
+            </a>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

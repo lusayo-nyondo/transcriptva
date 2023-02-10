@@ -1,0 +1,15 @@
+[
+{
+    "model": "transcriptva_clienthub.dashboardpost",
+    "pk": 1,
+    "fields": {
+        "title": "Getting Started",
+        "thumbnail": "dashboard_posts/landing_two_resized_6O4bJLi.png",
+        "text": "Learn about using our platform. How to place orders, cancel orders, make payments, edit transcripts, etc.",
+        "action_text": "Learn More",
+        "action_url": "http://localhost:8000/clientsupport/using-the-platform",
+        "created_on": "2023-01-12T11:53:55.568Z",
+        "updated_on": "2023-01-12T11:53:55.569Z"
+    }
+}
+]

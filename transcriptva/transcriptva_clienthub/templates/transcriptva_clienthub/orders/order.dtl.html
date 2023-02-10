@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-<title>Order Transcript</title>
+<title>Transcript VA - Order Transcript</title>
 {% endblock %}
 
 {% block body %}
@@ -18,8 +18,8 @@
     <!-- Details -->
     <form action="{% url 'order_transcript' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="container py-2">
-            <fieldset class="border p-2">
+        <div class="p-2">
+            <fieldset class="border shadow-sm p-4">
                 <legend class="w-auto">
                     <i class="bi-ticket-detailed"></i>
                     <span>Transcript Details</span>

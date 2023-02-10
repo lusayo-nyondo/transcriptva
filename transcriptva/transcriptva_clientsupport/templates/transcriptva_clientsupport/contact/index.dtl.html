@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Transcript VA - Raise Support Ticket</title>
+        
+        <link rel="shortcut icon" href="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo.png' %}"  type="image/x-icon">
+
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/bootstrap-icons/bootstrap-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/site/style.css' %}">
+    </head>
+    <body class="vh-100 d-flex flex-column">
+        <nav class="navbar navbar-dark bg-dark px-3 border-bottom">
+            <!-- Navbar Content -->
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'clienthub' %}">
+                <img class="img-fluid"
+                  style="height: 50px;"
+                  alt="TranscriptVA"
+                  src="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo-alternate-colors.png' %}">
+              </a>
+              <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item mx-2">
+                  <a class="btn btn-sm text-white" href="{% url 'personal_details' %}">
+                    <i class="bi-person-circle"></i>
+                    <span><strong>My Account</strong></span>
+                  </a>
+                </li>
+    
+                <li class="nav-item ml-2">
+                  <a class="btn btn-sm text-white" href="/clientsupport">
+                    <i class="bi-info-circle"></i>
+                    <span><strong>Support</strong></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+        <main class="flex-fill container-fluid">
+            <div class="row h-100">
+                <!-- Main Content -->
+                <div class="position-relative px-0">
+                    <div class="px-0 position-absolute h-100 w-100">
+                        <div class="d-flex flex-column h-100 overflow-y-auto">
+                            <div class="w-100 mx-0 py-3 px-3 shadow-sm">
+                                <a href="{% url 'clienthub' %}" class="btn btn-warning btn-sm">
+                                    <i class="bi-arrow-left"></i>
+                                    <span>Back To Client Hub</span>
+                                </a>
+                            </div>
+                            <div class="shadow-sm flex-fill py-3">
+                                <div class="container-sm rounded mx-auto p-3 shadow-sm">
+                                    {% if status and status == 'success' %}
+                                    <p class="lead alert alert-warning">{{ message }}</p>
+                                    {% endif %}
+
+                                    {% if mode == 'order_related' %}
+                                    <p class="lead alert alert-danger">Note that you can only raise an issue with an order up to 1 hour after its submission.</p>
+                                    {% endif %}
+
+                                    <p class="lead text-center">Contact Support</p>
+                                    
+                                    <form class="form" action="{% url 'contact_client_support' %}" enctype="multipart/form-data" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ mode }}" name="mode_input">
+                                        <div class="mb-3">
+                                            <label for="category_input" class="form-label lead">Category</label>
+                                            <select class="form-control form-control-sm" id="category_input" name="category_input">
+                                                {% if mode == 'general' %}
+                                                <option value="general_inquiry">General Inquiry</option>
+                                                <option value="website_error">Site or Application Error</option>
+                                                <option value="feature_request">Request Feature</option>
+                                                <option value="dmca_complaint">DMCA Complaint</option>
+                                                <option value="general_complaint">General Complaint</option>
+                                                {% elif mode == 'order_related' %}
+                                                <option value="problematic_transcript">Report Problematic Transcript</option>
+                                                <option value="submitted_wrong_file_on_order">Submitted Wrong File on Order</option>
+                                                {% endif %}
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="reference_input" class="form-label lead">Subject</label>
+                                            <input
+                                                {% if mode == 'order_related' %} readonly value="[ORDER]-[{{ order.pk }}]" {% endif %}
+                                                type="text" class="form-control form-control-sm" id="reference_input" name="reference_input" placeholder="A general title for your issue">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="notes_input" class="form-label lead">Notes</label>
+                                            <textarea class="form-control form-control-sm" id="notes_input" name="notes_input" rows="3" placeholder="Details about your issue."></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="attachments_input" class="form-label lead">Attachments (Optional)</label>
+                                            <input type="file" class="form-control form-control-sm" id="attachments_input" name="attachments_input" multiple>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button class="btn btn-warning btn-sm">
+                                                <i class="bi-arrow-right"></i>
+                                                <span>Submit</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

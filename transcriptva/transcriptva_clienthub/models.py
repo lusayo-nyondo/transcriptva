@@ -1,231 +1,80 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import AbstractUser
 
 from datetime import datetime, timedelta
 
+from config.settings import SITE_URL
+
+from transcriptva_clientaccount.models import User
+
+
 VERBATIM = [
-    [ 'N/A', 'N/A'],
-    [ 'CLEAN_VERBATIM', 'CLEAN_VERBATIM' ],
-    [ 'FULL_VERBATIM', 'FULL_VERBATIM' ],
-    [ 'CUSTOM_VERBATIM', 'CUSTOM_VERBATIM' ]
+    [ 'N/A', 'N/A' ],
+    [ 'CLEAN_VERBATIM', 'Clean Verbatim' ],
+    [ 'FULL_VERBATIM', 'Full Verbatim' ],
+    [ 'CUSTOM_VERBATIM', 'Custom Verbatim' ]
 ]
 
 TYPE = [
-    [ 'HUMAN_GENERATED', 'HUMAN_GENERATED' ],
-    [ 'MACHINE_GENERATED', 'MACHINE_GENERATED' ]
+    [ 'HUMAN_GENERATED', 'Human Generated' ],
+    [ 'MACHINE_GENERATED', 'Machine Generated' ]
 ]
 
 ACCENT = [
     [ 'ALL', 'ALL' ],
-    [ 'AMERICAN_ENGLISH', 'AMERICAN_ENGLISH' ],
-    [ 'BRITISH_ENGLISH', 'BRITISH_ENGLISH' ]
+    [ 'AMERICAN_ENGLISH', 'American English' ],
+    [ 'BRITISH_ENGLISH', 'British English' ]
 ]
 
 TIMESTAMPING = [
-    [ 'NO_TIMESTAMPS', 'NO_TIMESTAMPS' ],
-    [ 'EVERY_SPEAKER', 'EVERY_SPEAKER' ],
-    [ 'EVERY_X_SECONDS', 'EVERY_X_SECONDS']
+    [ 'NO_TIMESTAMPS', 'No Timestamps' ],
+    [ 'EVERY_SPEAKER', 'Every Change of Speaker' ],
+    [ 'EVERY_X_SECONDS', 'Every X Seconds' ]
 ]
 
 NO_OF_SPEAKERS = [
-    [ 'ALL', 'ALL' ],
-    [ 'BETWEEN_1_AND_2', 'BETWEEN_1_AND_2' ],
-    [ 'BETWEEN_3_AND_5', 'BETWEEN_3_AND_5' ],
-    [ '6_AND_ABOVE', '6_AND_ABOVE']
+    [ 'ALL', 'All' ],
+    [ 'BETWEEN_1_AND_2', 'Between 1 and 2' ],
+    [ 'BETWEEN_3_AND_5', 'Between 3 and 5' ],
+    [ '6_AND_ABOVE', '6 and above' ]
 ]
 
 SPEAKER_IDENTIFICATION = [
-    [ 'NO_SPEAKER_IDENTIFICATION', 'NO_SPEAKER_IDENTIFICATION' ],
-    [ 'EVERY_SPEAKER_CHANGE', 'EVERY_SPEAKER_CHANGE' ]
+    [ 'NO_SPEAKER_IDENTIFICATION', 'No Speaker Identification' ],
+    [ 'EVERY_SPEAKER_CHANGE', 'Every Change of Speaker' ]
 ]
 
 ORDER_STATUSES = [
-    [ 'SUBMITTED', 'SUBMITTED' ],
-    [ 'AWAITING_PAYMENT', 'AWAITING_PAYMENT'],
-    [ 'AWAITING_TRANSCRIPTION', 'AWAITING_TRANSCRIPTION'],
-    [ 'AWAITING_REVIEW', 'AWAITING_REVIEW'],
-    [ 'AWAITING_SIGNOFF', 'AWAITING_SIGNOFF'],
-    [ 'AWAITING_DISPUTE_RESOLUTION', 'AWAITING_DISPUTE_RESOLUTION']
+    [ 'AWAITING_PAYMENT', 'Awaiting Payment' ],
+    [ 'AWAITING_ASSIGNMENT', 'Awaiting Assignment' ],
+    [ 'CURRENTLY_IN_WORK_QUEUE', 'Currently in Work Queue' ],
+    [ 'COMPLETED', 'Completed'],
+    [ 'CANCELED', 'Canceled']
 ]
 
 TRANSCRIPT_STATUSES = [
-    [ 'QUEUED_FOR_TRANSCRIPTION', 'QUEUED_FOR_TRANSCRIPTION'],
-    [ 'UNDERGOING_TRANSCRIPTION', 'UNDERGOING_TRANSCRIPTION' ],
-    [ 'UNDERGOING_REVIEW', 'UNDERGOING_REVIEW'],
-    [ 'COMPLETED', 'COMPLETED']
+    [ 'QUEUED_FOR_TRANSCRIPTION', 'Queued for Transcription' ],
+    [ 'UNDERGOING_TRANSCRIPTION', 'Undergoing Transcription' ],
+    [ 'UNDERGOING_REVIEW', 'Undergoing Review' ],
+    [ 'COMPLETED', 'Completed' ]
 ]
 
 NOTIFICATION_TYPES = [
-    [ 'INFO', 'INFO' ],
-    [ 'WARNING', 'WARNING' ],
-    [ 'SUCCESS', 'SUCCESS' ],
-    [ 'DANGER', 'DANGER' ]
+    [ 'INFO', 'Info' ],
+    [ 'WARNING', 'Warning' ],
+    [ 'SUCCESS', 'Success' ],
+    [ 'DANGER', 'Danger' ]
 ]
 
 NOTIFICATION_ACTIONS_REQUIRED = [
-    [ 'NONE', 'NONE' ],
-    [ 'ACKNOWLEDGE_RECEIPT', 'ACKNOWLEDGE_RECEIPT' ]
+    [ 'NONE', 'None' ],
+    [ 'ACKNOWLEDGE_RECEIPT', 'Acknowledge Receipt' ]
 ]
 
 NOTIFICATION_ENGAGEMENTS = [
-    [ 'DISMISSED', 'DISMISSED' ],
-    [ 'UNSEEN', 'UNSEEN']
+    [ 'DISMISSED', 'Dismissed' ],
+    [ 'UNSEEN', 'Unseen' ]
 ]
-
-
-class User(AbstractUser):
-    company = models.TextField(
-        null=True,
-        blank=True
-    )
-
-
-class Order(models.Model):
-    def _build_upload_path(self, filename):
-        return 'orders/{}/{}'.format(
-            self.owner.username,
-            filename
-        )
-
-    owner = models.ForeignKey(
-        to=User,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True
-    )
-
-    status = models.CharField(
-        choices=ORDER_STATUSES,
-        max_length=255,
-        default='SUBMITTED'
-    )
-
-    file = models.FileField(
-        upload_to=_build_upload_path
-    )
-
-    duration = models.FloatField(
-        default=0.0
-    )
-
-    verbatim = models.CharField(
-        choices=VERBATIM,
-        max_length=255,
-        default="CLEAN_VERBATIM"
-    )
-
-    timestamping = models.CharField(
-        choices=TIMESTAMPING,
-        max_length=255,
-        default="NO_TIMESTAMPS"
-    )
-
-    speaker_identification = models.CharField(
-        choices=SPEAKER_IDENTIFICATION,
-        max_length=255,
-        default="NO_SPEAKER_IDENTIFICATION"
-    )
-
-    accent = models.CharField(
-        choices=ACCENT,
-        max_length=255,
-        default="AMERICAN_ENGLISH"
-    )
-
-    type = models.CharField(
-        choices=TYPE,
-        max_length=255,
-        default="HUMAN_GENERATED"
-    )
-
-    number_of_speakers = models.CharField(
-        choices=NO_OF_SPEAKERS,
-        max_length=255,
-        default="BETWEEN_3_AND_5"
-    )
-
-    amount_due = models.FloatField(
-        default=0.0
-    )
-
-    notes = models.TextField(
-        blank=True,
-        null=True
-    )
-
-    created_on = models.DateTimeField(
-        auto_now_add=True
-    )
-
-    updated_on = models.DateTimeField(
-        auto_now=True
-    )
-
-    def __str__(self):
-        return '{}-[{}]-{}'.format(
-            self.owner.__str__(),
-            self.created_on,
-            self.file
-        )
-
-    def calculate_duration(order):
-        pass
-
-    def calculate_amount_due(order):
-        pass
-
-
-class Transcript(models.Model):
-    order = models.OneToOneField(
-        to=Order,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="transcript"
-    )
-
-    author = models.ForeignKey(
-        to=User,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
-
-    name = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True
-    )
-
-    text = models.TextField(
-        blank=True,
-        null=True
-    )
-
-    created_on = models.DateTimeField(
-        auto_now_add=True
-    )
-
-    updated_on = models.DateTimeField(
-        auto_now=True
-    )
-
-    completed_on = models.DateTimeField(
-        blank=True,
-        null=True
-    )
-
-    status = models.CharField(
-        choices=TRANSCRIPT_STATUSES,
-        max_length=255,
-        default="QUEUED_FOR_TRANSCRIPTION"
-    )
-
-    def __str__(self):
-        return 'Transcript-{}'.format(
-            self.order
-        )
 
 
 class ServicePrice(models.Model):
@@ -276,6 +125,167 @@ class ServicePrice(models.Model):
             self.speaker_identification,
             self.timestamping,
             self.number_of_speakers
+        )
+
+
+class Order(models.Model):
+    owner = models.ForeignKey(
+        to=User,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
+
+    status = models.CharField(
+        choices=ORDER_STATUSES,
+        max_length=255,
+        default='AWAITING_PAYMENT'
+    )
+
+    reference = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True
+    )
+
+    service = models.ForeignKey(
+        to=ServicePrice,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    amount_due = models.FloatField(
+        default=0.0
+    )
+
+    notes = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    created_on = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_on = models.DateTimeField(
+        auto_now=True
+    )
+
+    @property
+    def transcripts(self):
+        transcripts = Transcript.objects.filter(
+            order=self
+        )
+
+        return transcripts
+
+    def __str__(self):
+        return '{}-[{}]-{}'.format(
+            self.owner.__str__(),
+            self.reference,
+            self.created_on,
+        )
+
+
+class Transcript(models.Model):
+    def _build_upload_path(self, filename):
+        return 'orders/{}/{}'.format(
+            self.owner.username,
+            filename
+        )
+
+    owner = models.ForeignKey(
+        to=User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+
+    status = models.CharField(
+        choices=TRANSCRIPT_STATUSES,
+        max_length=255,
+        default="QUEUED_FOR_TRANSCRIPTION"
+    )
+
+    order = models.ForeignKey(
+        to=Order,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
+
+    file = models.FileField(
+        upload_to=_build_upload_path
+    )
+
+    duration = models.FloatField(
+        default=0.0
+    )
+
+    verbatim = models.CharField(
+        choices=VERBATIM,
+        max_length=255,
+        default="CLEAN_VERBATIM"
+    )
+
+    timestamping = models.CharField(
+        choices=TIMESTAMPING,
+        max_length=255,
+        default="NO_TIMESTAMPS"
+    )
+
+    speaker_identification = models.CharField(
+        choices=SPEAKER_IDENTIFICATION,
+        max_length=255,
+        default="NO_SPEAKER_IDENTIFICATION"
+    )
+
+    accent = models.CharField(
+        choices=ACCENT,
+        max_length=255,
+        default="AMERICAN_ENGLISH"
+    )
+
+    type = models.CharField(
+        choices=TYPE,
+        max_length=255,
+        default="HUMAN_GENERATED"
+    )
+
+    number_of_speakers = models.CharField(
+        choices=NO_OF_SPEAKERS,
+        max_length=255,
+        default="BETWEEN_3_AND_5"
+    )
+
+    text = models.TextField(
+        blank=True,
+        null=True
+    )
+
+    applicable_cost = models.FloatField(
+        default=0.0,
+        blank=True,
+        null=True
+    )
+
+    created_on = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_on = models.DateTimeField(
+        auto_now=True
+    )
+
+    completed_on = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return 'Transcript-{}'.format(
+            self.order
         )
 
 
@@ -367,7 +377,11 @@ class DashboardPost(models.Model):
     )
 
     def _get_default_url():
-        url = reverse('support')
+        url = '{}/{}'.format(
+            SITE_URL,
+            'clientsupport'
+        )
+
         return url
 
     action_url = models.URLField(

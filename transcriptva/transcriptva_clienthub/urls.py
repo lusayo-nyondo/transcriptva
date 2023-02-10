@@ -10,14 +10,11 @@ from .views import (
 
     orders_list,
     order_transcript,
+    make_order_payment,
     view_order,
 
     transcripts_list,
-    view_transcript,
-
-    submit_report,
-
-    account
+    view_transcript
 )
 
 urlpatterns = [
@@ -31,10 +28,8 @@ urlpatterns = [
     path('orders', orders_list, name="orders"),
     path('order_transcript', order_transcript, name="order_transcript"),
     path('view_order/<int:order_id>', view_order, name="view_order"),
+    path('make_order_payment/<int:order_id>', make_order_payment, name="make_order_payment"),
 
     path('transcripts', transcripts_list, name="transcripts"),
-    path('view_transcript/<int:transcript_id>', view_transcript, name="view_transcript"),
-
-    path('submit_report', submit_report, name="submit_report"),
-    path('account', account, name="account")
+    path('view_transcript/<int:transcript_id>', view_transcript, name="view_transcript")
 ]

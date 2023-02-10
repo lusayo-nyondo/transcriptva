@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
         {% block title %}
-        <title>Transcript VA - Client</title>
+        <title>Transcript VA - Client Hub</title>
         {% endblock %}
 
         <link rel="shortcut icon" href="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo.png' %}"  type="image/x-icon">
@@ -22,8 +22,10 @@
       {% url 'transcripts' as transcripts_url %}
       {% url 'sign_out' as sign_out_url %}
       {% url 'order_transcript' as order_transcript_url %}
+      {% url 'make_order_payment' as order_payment_url %}
       
       {% with view_order_url='clienthub/view_order' %}
+      {% with order_payment_url='clienthub/make_order_payment' %}
       <nav class="navbar navbar-dark bg-dark px-3 border-bottom">
         <!-- Navbar Content -->
         <div class="container-fluid">
@@ -35,7 +37,7 @@
           </a>
           <ul class="navbar-nav d-flex flex-row">
             <li class="nav-item mx-2">
-              <a class="btn btn-sm text-white" href="{% url 'account' %}">
+              <a class="btn btn-sm text-white" href="{% url 'personal_details' %}">
                 <i class="bi-person-circle"></i>
                 <span><strong>My Account</strong></span>
               </a>
@@ -54,7 +56,7 @@
         <div class="row h-100">
           <!-- Sidebar -->
           <div class="col-2
-              border border-right
+              border
               h-100 px-0 pb-0
               d-flex flex-column
               bg-white
@@ -75,7 +77,7 @@
                     <a
                       href="{{ orders_url }}"
                       class="btn py-3 border-bottom rounded-0 w-100 text-start
-                            {% if request.path == orders_url or request.path == order_transcript_url or view_order_url in request.build_absolute_uri %} btn-warning text-white {% endif %}">
+                            {% if request.path == orders_url or order_payment_url in request.build_absolute_uri or request.path == order_transcript_url or view_order_url in request.build_absolute_uri %} btn-warning text-white {% endif %}">
                         <i class="bi-file-text-fill"></i>
                         <span>My Orders</span>
                     </a>
@@ -114,6 +116,7 @@
           </div>
         </div>
       </main>
+      {% endwith %}
       {% endwith %}
       <script src="{% static 'transcriptva_clienthub/assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
       <script src="{% static 'transcriptva_clienthub/assets/site/script.js' %}"></script>

@@ -1,0 +1,112 @@
+{% extends 'transcriptva_clientaccount/base.dtl.html' %}
+
+{% block title %}
+<title>Transcript VA - My Personal Details</title>
+{% endblock %}
+
+{% block form %}
+<form class="form" action="{% url 'personal_details' %}" method="POST">
+  {% csrf_token %}
+  <div class="row my-1">
+    <div class="col-2">
+      <label class="form-label" aria-label-for="username_input">Username: </label>
+    </div>
+    <div class="col-10">
+      <input type="text" disabled class="form-control form-control-sm" name="username_input" id="username_input" value="{{ user.username }}">
+    </div>
+  </div>
+
+  <div class="row my-1">
+    <div class="col-2">
+      <label class="form-label" aria-label-for="email_input">Email: </label>
+    </div>
+    <div class="col-10">
+      <input type="text" disabled class="form-control form-control-sm" name="email_input" id="email_input" value="{{ user.email }}">
+    </div>
+  </div>
+
+  <div class="row my-1">
+    <div class="col-2">
+      <label class="form-label" aria-label-for="firstname_input">First Name: </label>
+    </div>
+    <div class="col-10">
+      <input type="text" disabled class="form-control form-control-sm" name="firstname_input" id="firstname_input" value="{{ user.first_name }}">
+    </div>
+  </div>
+
+  <div class="row my-1">
+    <div class="col-2">
+      <label class="form-label" aria-label-for="lastname_input">Last Name: </label>
+    </div>
+    <div class="col-10">
+      <input type="text" disabled class="form-control form-control-sm" name="lastname_input" id="lastname_input" value="{{ user.last_name }}">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-10 offset-2">
+      <button type="button" class="btn btn-warning btn-sm me-2" id="edit_personal_details_button">
+        <i class="bi-pencil-square"></i>
+        <span>Edit</span>
+      </button>
+
+      <button type="submit" class="btn btn-success btn-sm d-none" id="save_edit_personal_details_button">
+        <i class="bi-save"></i>
+        <span>Save</span>
+      </button>
+
+      <button type="button" class="btn btn-danger btn-sm d-none" id="cancel_edit_personal_details_button">
+        <i class="bi-x-square"></i>
+        <span>Cancel</span>
+      </button>
+    </div>
+  </div>
+</form>
+<div class="row">
+  <div class="col-10 offset-2">
+    <hr>
+    <a href="{% url 'change_password' %}" class="nav-link">
+      <i class="bi-arrow-right"></i>
+      <span>Change password</span>  
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  const edit_personal_details_button = document.getElementById('edit_personal_details_button');
+  const cancel_edit_personal_details_button = document.getElementById('cancel_edit_personal_details_button');
+  const save_edit_personal_details_button = document.getElementById('save_edit_personal_details_button');
+
+  const details_inputs = document.getElementsByTagName('input');
+
+  edit_personal_details_button.onclick = e => {
+    let i = 0;
+    let l = details_inputs.length;
+
+    for(; i < l; i++) {
+      let input = details_inputs[i];
+      input.removeAttribute('disabled');
+    }
+
+    edit_personal_details_button.classList.toggle('d-none');
+    save_edit_personal_details_button.classList.toggle('d-none');
+    cancel_edit_personal_details_button.classList.toggle('d-none');
+  };
+
+  cancel_edit_personal_details_button.onclick = e => {
+    let i = 0;
+    let l = details_inputs.length;
+
+    for(; i < l; i++) {
+      let input = details_inputs[i];
+      input.setAttribute('disabled', 'disabled');
+    }
+    
+    edit_personal_details_button.classList.toggle('d-none');
+    cancel_edit_personal_details_button.classList.toggle('d-none');
+    save_edit_personal_details_button.classList.toggle('d-none'); 
+  };
+</script>
+{% endblock %}

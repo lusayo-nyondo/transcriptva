@@ -4,3 +4,5 @@ db.sqlite3
 migrations
 client_media
 public_static
+
+node_modules

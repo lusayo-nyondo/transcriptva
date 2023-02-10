@@ -1,0 +1,28 @@
+[
+{
+    "model": "transcriptva_clienthub.notification",
+    "pk": 1,
+    "fields": {
+        "title": "Welcome.",
+        "text": "Welcome to the platform. Click the links below or go to support to learn more.",
+        "type": "INFO",
+        "action_required": "NONE",
+        "created_on": "2023-01-12T11:23:02.432Z",
+        "updated_on": "2023-01-12T11:23:02.433Z",
+        "expires_on": "2023-01-19T13:21:52Z"
+    }
+},
+{
+    "model": "transcriptva_clienthub.notification",
+    "pk": 2,
+    "fields": {
+        "title": "Payment Info.",
+        "text": "Please update your payment information to complete your sign up.",
+        "type": "INFO",
+        "action_required": "NONE",
+        "created_on": "2023-01-12T11:24:12.429Z",
+        "updated_on": "2023-01-16T15:52:34.669Z",
+        "expires_on": "2023-01-19T13:23:17Z"
+    }
+}
+]
