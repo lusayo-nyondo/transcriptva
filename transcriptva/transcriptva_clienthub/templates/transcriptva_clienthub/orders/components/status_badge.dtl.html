@@ -1,0 +1,12 @@
+<span class="badge{% if order.status == 'COMPLETED' %} bg-success{% elif order.status == 'CANCELED' %} bg-danger{% elif order.status == 'AWAITING_PAYMENT' %} bg-warning {% else %} bg-tva-primary{% endif %}">
+    {% if order.status == 'COMPLETED' %}
+    <i class="bi-check2"></i>
+    {% elif order.status == 'CANCELED' %}
+    <i class="bi-x"></i>
+    {% elif order.status == 'AWAITING_PAYMENT' %}
+    <i class="bi-credit-card"></i>
+    {% else %}
+    <i class="bi-hourglass-split"></i>
+    {% endif %}
+    <span>{{ order.get_status_display }}</span>
+</span>

@@ -7,11 +7,25 @@
 <title>Transcript VA - Client Hub</title>
 {% endblock%}
 
+{% block topbar %}
+<ul class="navbar-nav py-3 flex-fill">
+    <li class="nav-item align-self-end">
+        <a href="{% url 'order_transcript' %}" class="btn btn-warning text-whites">
+            <i class="bi-file-earmark-plus"></i>
+            <span>Order Transcript</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}
+
 {% block body %}
-<div class="container-fluid px-0 shadow-sm">
+<div class="container-fluid px-0">
     <nav class="navbar nav-lg py-3 px-2">
         <div class="me-auto">
-            <h4>Hey, <span class="text-warning">{{ user.first_name }}</span></h4>
+            <h3 class="display-5">
+                <span>Hey, </span>
+                <span class="text-warning">{{ user.first_name }}</span>
+            </h3>
         </div>
         <ul class="navbar-nav">
           <li class="nav-item align-self-end">
@@ -24,20 +38,20 @@
 </div>
 <div class="flex-fill">
     <div class="container">
-        <div class="container row mx-0">
-            {% for notification in notifications %}
-            <div class="col col-4 my-3">
-                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast shadow-sm" data-bs-autohide="false">
+        <div class="container row justify-content-around mx-0">
+            {% for e in notifications %}
+            <div class="col col-12 col-md-4 my-3">
+                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast mx-auto shadow-sm" data-bs-autohide="false">
                     <div class="toast-header">
                         <span class="me-2">
                             <i class="bi-bell"></i>
                         </span>
-                        <strong class="me-auto">{{ notification.title }}</strong>
-                        <small>{{ notification.created_on | naturaltime }}</small>
+                        <strong class="me-auto lead">{{ e.notification.title }}</strong>
+                        <small>{{ e.notification.created_on | naturaltime }}</small>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
-                    <div class="toast-body">
-                    {{ notification.text }}
+                    <div class="lead toast-body">
+                    {{ e.notification.text }}
                     </div>
                 </div>
             </div>
@@ -45,10 +59,13 @@
         </div>
     </div>
     <div>
-        <h2 class="w-100 text-center">Quick Links</h2>
-        <div class="container row mx-0">
+        <h2 class="w-100 text-center display-6">
+            <span>Quick</span>
+            <span class="text-tva-primary">Links</span>
+        </h2>
+        <div class="container row mx-auto justify-items-center">
             {% for dashboard_post in dashboard_posts %}
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <div class="card mb-3" style="max-width: 540px;">
                     <div class="row g-0">
                       <div class="col-md-4">
@@ -56,8 +73,8 @@
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
-                          <h5 class="card-title">{{ dashboard_post.title }}</h5>
-                          <p class="card-text">{{ dashboard_post.text }}</p>
+                          <h5 class="card-title display-6">{{ dashboard_post.title }}</h5>
+                          <p class="card-text lead">{{ dashboard_post.text }}</p>
                           <p class="card-text">
                             <a href="{{ dashboard_post.action_url }}" class="btn btn-sm btn-warning">
                               <span>{{ dashboard_post.action_text }}</span>
@@ -72,5 +89,7 @@
         </div>
     </div>
 </div>
+
+{% include 'transcriptva_clienthub/includes/footer.dtl.html' %}
 
 {% endblock %}

@@ -1,0 +1,38 @@
+<div class="dropdown">
+    <button class="btn border-0{% if color %} {{ color }}{% endif %}"
+        type="dropdown" id="dropdown_menu_button_1" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <i class="bi-three-dots"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdown_menu_button_1">
+        <li>
+            <a class="dropdown-item" href="{% url 'view_order' order.pk %}">
+                <i class="bi-eye"></i>
+                <span>View Order Details</span>
+            </a>
+        </li>
+        {% if order.status == 'AWAITING_PAYMENT' %}
+        <li>
+            <a class="dropdown-item" href="{% url 'make_order_payment' order.id %}">
+                <i class="bi-credit-card text-success"></i>
+                <span class="text-success">Make Payment</span>
+            </a>
+        </li>
+        {% endif %}
+        {% if order.transcript %}
+        <li>
+            <a class="dropdown-item" href="{% url 'view_transcript' order.transcript.pk %}">
+                <i class="bi-mic-fill text-success"></i>
+                <span class="text-success">View Transcript </span>
+            </a>
+        </li>
+        {% endif %}
+        <hr>
+        <li>
+            <a class="dropdown-item" href="{% url 'raise_order_issue' order.pk %}">
+                <i class="text-danger bi-exclamation-triangle"></i>
+                <span class="text-danger">Raise Issue</span>
+            </a>
+        </li>
+    </ul>
+</div>

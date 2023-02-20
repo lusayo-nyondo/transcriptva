@@ -32,36 +32,33 @@ INSTALLED_APPS = [
     'transcriptva_clientsupport',
     'transcriptva_clientaccount',
 
-    'transcriptva_admin', # Imports models from all dependent apps so include it last.
+    'transcriptva_admin',
 
-    ### DJANGO CMS STUFF FOR THE SUPPORT AND BLOG PARTS OF THE APP
-    'sekizai',
+    'apps.transcriptva_editor',
 
-    'cms',
-    'menus',
-    'treebeard',
-
-    # 'djangocms_admin_style', # USELESS BECAUSE IT JUST MAKES THE SITE ADMIN UGLY
-    
-    # Plugins to make the administration interface look better
-    # 'grappelli',
-
+    # Plugins for Django admin interface
     'admin_interface',
     'colorfield',
 
-    # CONTENT HANDLING STUFF FOR DJANGO CMS
-    'easy_thumbnails',
-    'mptt',
-    'filer',
+    # Wagtail apps
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail',
 
-    'djangocms_text_ckeditor',
-    'djangocms_link',
-    'djangocms_file',
-    'djangocms_picture',
-    'djangocms_video',
-    'djangocms_googlemap',
-    'djangocms_snippet',
-    'djangocms_style',
+    'taggit',
+    'modelcluster',
+
+    # Wagtail menu apps
+    'wagtail.contrib.modeladmin',
+    'wagtailmenus',
 
     'django.contrib.sites',
     'django.contrib.admin',
@@ -82,14 +79,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # MORE DJANGO CMS JUNK
+    
     'django.middleware.locale.LocaleMiddleware',
 
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -111,18 +104,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                # DJANGO CMS JUNK
-                'django.template.context_processors.i18n',
-
-                'cms.context_processors.cms_settings',
-                'sekizai.context_processors.sekizai'
+                # Wagtail Context Processors
+                'wagtailmenus.context_processors.wagtailmenus',
             ],
         },
     },
-]
-
-CMS_TEMPLATES = [
-    ('transcriptva_clientsupport/index.dtl.html', 'Client Support Docs - CMS')
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
@@ -189,22 +175,23 @@ AUTH_USER_MODEL = 'transcriptva_clientaccount.User'
 MEDIA_URL = '/client_media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'client_media')
 
-# DJANGO CMS JUNK AGAIN
-SITE_ID = 1 #someone suggested django-cms-multisite as an alternative to this
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+WAGTAIL_SITE_NAME = 'Transcript VA'
 
-# MORE CONTENT STUFF FOR DJANGO CMS
-THUMBNAIL_HIGH_RESOLUTION = True
+# Replace the search backend
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.search.backends.database',
+    }
+}
 
-THUMBNAIL_PROCESSORS = (
-    'easy_thumbnails.processors.colorspace',
-    'easy_thumbnails.processors.autocrop',
-    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
-    'easy_thumbnails.processors.filters'
-)
 
-SILENCED_SYSTEM_CHECKS = ['security.W019']
+WAGTAILADMIN_BASE_URL = 'admin'
 
-# GRAPPELLI ADMINISTRATION SETTINGS
+# Wagtail email notifications from address
+WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = 'wagtail@myhost.io'
 
-# GRAPPELLI_ADMIN_TITLE = 'Transcript VA'
+# Wagtail email notification format
+WAGTAILADMIN_NOTIFICATION_USE_HTML = True
+
+# Reverse the default case-sensitive handling of tags
+TAGGIT_CASE_INSENSITIVE = True

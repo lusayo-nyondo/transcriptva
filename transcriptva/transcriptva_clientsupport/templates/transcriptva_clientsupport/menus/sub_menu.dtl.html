@@ -1,0 +1,17 @@
+{% load menu_tags %}
+
+<ul class="nav ps-4 bg-light border-start">
+    {% for menu_item in menu_items %}
+    <li class="nav-item w-100">
+        <a class="btn bg-white {{ item.active_class }} py-3 border-start border-top border-bottom rounded-0 w-100 text-start"
+            href="{{ menu_item.href }}">
+            <i class="bi-arrow-right"></i>
+            <span>{{ menu_item.text }}</span>
+        </a>
+
+        {% if menu_item.has_children_in_menu %}
+            {% sub_menu menu_item %}
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

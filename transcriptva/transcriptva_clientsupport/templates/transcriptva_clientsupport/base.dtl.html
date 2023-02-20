@@ -1,0 +1,55 @@
+{% load static %}
+
+{% load wagtailcore_tags %}
+
+{% load menu_tags %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% block title %}{% endblock %}
+
+        <link rel="shortcut icon" href="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo.png' %}"  type="image/x-icon">
+
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/bootstrap-icons/bootstrap-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/site/style.css' %}">
+    </head>
+    <body class="vh-100 d-flex flex-column">
+        <nav class="navbar navbar-dark bg-dark px-3 border-bottom">
+            <!-- Navbar Content -->
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'clienthub' %}">
+                <img class="img-fluid"
+                  style="height: 50px;"
+                  alt="TranscriptVA"
+                  src="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo-alternate-colors.png' %}">
+              </a>
+              <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item mx-2">
+                  <a class="btn btn-sm text-white" href="{% url 'personal_details' %}">
+                    <i class="bi-person-circle"></i>
+                    <span><strong>My Account</strong></span>
+                  </a>
+                </li>
+    
+                <li class="nav-item ml-2">
+                  <a href="{% url 'clienthub' %}" class="btn btn-warning btn-sm">
+                    <i class="bi-arrow-left"></i>
+                    <span>Back To Client Hub</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+        <main class="flex-fill container-fluid">
+            <div class="row h-100">
+                {% block body %} {% endblock %}
+            </div>
+        </main>
+        <script src="{% static 'transcriptva_clienthub/assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'transcriptva_clienthub/assets/site/script.js' %}"></script>
+        {% block script %}{% endblock %}
+    </body>
+</html>

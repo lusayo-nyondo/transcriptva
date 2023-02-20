@@ -1,0 +1,12 @@
+<span class="badge{% if transcript.status == 'COMPLETED' %} bg-success{% elif transcript.status == 'CANCELED' %} bg-danger{% elif transcript.status == 'QUEUED_FOR_TRANSCRIPTION' %} bg-warning {% else %} bg-tva-primary{% endif %}">
+    {% if transcript.status == 'QUEUED_FOR_TRANSCRIPTION' %}
+    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+    {% endif %}
+    {% if transcript.status == 'UNDERGOING_TRANSCRIPTION' %}
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    {% endif %}
+    {% if transcript.status == 'COMPLETED' %}
+    <i class="bi-check2"></i>
+    {% endif %}
+    <span>{{ transcript.get_status_display }}</span>
+</span>

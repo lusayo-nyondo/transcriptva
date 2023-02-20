@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.urls import reverse
 
@@ -142,10 +144,10 @@ class Order(models.Model):
         default='AWAITING_PAYMENT'
     )
 
-    reference = models.CharField(
-        max_length=100,
-        null=True,
-        blank=True
+    reference = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        editable=False
     )
 
     service = models.ForeignKey(
@@ -179,6 +181,24 @@ class Order(models.Model):
         )
 
         return transcripts
+    
+    def _get_service_by_details(self,
+        type,
+        accent,
+        verbatim,
+        speaker_identification,
+        number_of_speakers,
+        timestamping):
+        
+        service = ServicePrice.objects.get(
+            type=type.upper(),
+            verbatim=verbatim.upper(),
+            speaker_identification=speaker_identification.upper(),
+            number_of_speakers=number_of_speakers.upper(),
+            timestamping=timestamping.upper()
+        )
+
+        return service
 
     def __str__(self):
         return '{}-[{}]-{}'.format(

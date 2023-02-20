@@ -1,0 +1,42 @@
+{% url 'personal_details' as personal_details_url %}
+{% url 'payment_details' as payment_details_url %}
+{% url 'change_password' as change_password_url %}
+{% url 'delete_account' as delete_account_url %}
+
+<div class="flex-fill p-0">
+    <ul class="nav">
+      <li class="nav-item w-100 bg-white">
+        <a href="{% url 'personal_details' %}"
+          class="btn py-3 border-bottom rounded-0 w-100 text-start
+                {% if request.path == personal_details_url or request.path == change_password_url %} btn-warning text-white {% endif %}">
+            <i class="bi-person-circle"></i>
+            <span>Personal Details</span>
+        </a>
+      </li>
+      <li class="nav-item w-100 bg-white">
+        <a href="{% url 'payment_details' %}"
+          class="btn py-3 border-bottom rounded-0 w-100 text-start
+                {% if request.path == payment_details_url %} btn-warning text-white {% endif %}">
+            <i class="bi-cash-stack"></i>
+            <span>Payment Details</span>
+        </a>
+      </li>
+    </ul>
+</div>
+<ul class="nav">
+    <li class="nav-item w-100">
+      <a
+        class="btn py-3 border-top rounded-0 w-100 text-start bg-white"
+        href="/clientsupport">
+        <i class="bi-info-circle"></i>
+        <span>Support</span>
+      </a>
+    </li>
+    <li class="nav-item w-100">
+      <a href="{% url 'delete_account' %}"
+        class="btn btn-danger py-3 rounded-0 w-100 text-start">
+        <i class="bi-person-x-fill"></i>
+        <span>Delete Account</span>
+      </a>
+    </li>
+</ul>

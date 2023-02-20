@@ -1,0 +1,22 @@
+<div class="dropdown">
+    <button
+        class="btn border-0{% if color %} {{ color }}{% endif %}"
+        type="dropdown" id="dropdown_menu_button_{{ transcript.pk }}" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <i class="bi-three-dots"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdown_menu_button_{{ transcript.pk }}">
+        <li>
+            <a class="dropdown-item" href="{% url 'view_transcript' transcript.pk %}">
+                <i class="bi-mic-fill text-success"></i>
+                <span class="text-success">Open Transcript In Editor</span>
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{% url 'view_order' transcript.order.pk %}">
+                <i class="bi-file-text-fill"></i>
+                <span>Go To Order</span>
+            </a>
+        </li>
+    </ul>
+</div>

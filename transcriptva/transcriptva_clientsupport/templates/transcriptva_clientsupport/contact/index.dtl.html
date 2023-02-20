@@ -86,12 +86,15 @@
                                         <div class="mb-3">
                                             <label for="reference_input" class="form-label lead">Subject</label>
                                             <input
-                                                {% if mode == 'order_related' %} readonly value="[ORDER]-[{{ order.pk }}]" {% endif %}
-                                                type="text" class="form-control form-control-sm" id="reference_input" name="reference_input" placeholder="A general title for your issue">
+                                                {% if mode == 'order_related' %} readonly value="[ORDER]-[{{ order.pk }}]-[{{ order.reference }}]" {% endif %}
+                                                type="text"
+                                                required
+                                                class="form-control form-control-sm{% if mode == 'order_related' %} bg-light{% endif %}"
+                                                id="reference_input" name="reference_input" placeholder="A general title for your issue">
                                         </div>
                                         <div class="mb-3">
                                             <label for="notes_input" class="form-label lead">Notes</label>
-                                            <textarea class="form-control form-control-sm" id="notes_input" name="notes_input" rows="3" placeholder="Details about your issue."></textarea>
+                                            <textarea required class="form-control form-control-sm" id="notes_input" name="notes_input" rows="3" placeholder="Details about your issue."></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="attachments_input" class="form-label lead">Attachments (Optional)</label>

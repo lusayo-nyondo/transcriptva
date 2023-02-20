@@ -1,9 +1,15 @@
 from django.conf import settings
 from django.urls import path, include
+
 from django.conf.urls.static import static
 
+from wagtail import urls as wagtail_urls
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.documents import urls as wagtaildocs_urls
+
+
 urlpatterns = [
-    path('admin/', include('transcriptva_admin.urls')),
+    path('model-admin/', include('transcriptva_admin.urls')),
 
     path('', include('transcriptva_clientsite.urls')),
     
@@ -13,6 +19,10 @@ urlpatterns = [
 
     path('clientaccount/', include('transcriptva_clientaccount.urls')),
 
-    # Grappelli related URLs
-    # path('grappelli', include('grappelli.urls')),
+    # Wagtail URLs
+    path('content-admin/', include(wagtailadmin_urls)),
+    path('documents/', include(wagtaildocs_urls)),
+    
+    # Wagtail's serving mechanism
+    path('pages/', include(wagtail_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

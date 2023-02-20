@@ -1,0 +1,16 @@
+<span class="form-control form-control-sm disabled d-flex flex-nowrap bg-light align-items-center">
+    <span
+        style="word-break: break-word; word-wrap: break-word;"
+        class="me-1">{{ order.reference }}</span>
+    <button
+        type="button"
+        data-bs-container="body"
+        data-bs-toggle="popover"
+        data-bs-content="{{ order.reference }}"
+        data-bs-title="Copied!"
+        data-bs-trigger="focus"
+        class="btn border-start ms-auto rounded-0"
+        onclick="copy_to_clipboard('{{ order.reference }}')" >
+        <i class="bi-clipboard"></i>
+    </button>
+</span>

@@ -1,0 +1,28 @@
+<div class="w-100 d-flex flex-fill">
+    <ul class="pagination mx-auto my-0">
+        <li class="page-item{% if not page_obj.has_previous %} disabled{% endif %}">
+            <button
+                {% if page_obj.has_previous %}onclick='go_to_page({{ page_obj.number|add:"-1" }})'{% else %} disabled {% endif %}
+                type="button" class="page-link text-tva-primary" id="previous_page_button">Previous</button>
+        </li>
+        <li class="page-item">
+            <div class="dropdown">
+                <button type="button" class="page-link dropdown-toggle text-tva-primary" id="current_page_button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <span id="current_page_number">{{ page_obj.number }}</span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% for i in paginator.page_range %}
+                    <li>
+                        <button onclick="go_to_page({{ i }})" type="button" id="select_page_button_{{ i }}" class="dropdown-item text-tva-primary">{{ i }}</button>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
+        <li class="page-item{% if not page_obj.has_next %} disabled{% endif %}">
+            <button
+                {% if page_obj.has_next %} onclick='go_to_page({{ page_obj.number|add:"1" }})' {% else %} disabled {% endif %}
+                type="button" class="page-link text-tva-primary" id="next_page_button">Next</button>
+        </li>
+    </ul>
+</div>

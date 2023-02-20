@@ -4,6 +4,13 @@
 <title>Transcript VA - My Personal Details</title>
 {% endblock %}
 
+{% block page_heading %}
+<h3 class="flex-fill display-6">
+  <span>Personal </span>
+  <span class="text-warning">Details</span>
+</h3>
+{% endblock %}
+
 {% block form %}
 <form class="form" action="{% url 'personal_details' %}" method="POST">
   {% csrf_token %}

@@ -4,6 +4,13 @@
 <title>Transcript VA - Change Password</title>
 {% endblock %}
 
+{% block page_heading %}
+<h3 class="flex-fill display-6">
+  <span>Delete </span>
+  <span class="text-danger">Account</span>
+</h3>
+{% endblock %}
+
 {% block form %}
 <form class="form" action="{% url 'change_password' %}" method="POST">
     {% csrf_token %}
@@ -17,7 +24,9 @@
                     <span>Delete My Account</span>
                 </button>
             </div>
-            <pre class="mx-5 mb-0"><small>Note: This won't immeditiately remove your account from our servers, but you will lose access to your account while we process the deletion.</small></pre>
+            <small
+                style="font-family: monospace;"
+                class="d-inline-block mx-5 mb-0">Note: This won't immeditiately remove your account from our servers, but you will lose access to your account while we process the deletion.</small>
         </div>
     </div>
     <div class="row">

@@ -1,0 +1,82 @@
+{% extends 'transcriptva_clienthub/base.dtl.html' %}
+
+{% load static %}
+
+{% load wagtailcore_tags %}
+
+{% load menu_tags %}
+
+{% block title %}
+<title>{{ page.title }}</title>
+{% endblock %}
+
+{% block sidebar_menu %}
+
+{% main_menu max_levels=3 template="transcriptva_clientsupport/menus/main_menu.dtl.html" sub_menu_template="transcriptva_clientsupport/menus/sub_menu.dtl.html" %}
+
+{% endblock %}
+
+{% block offcanvas_sidebar_menu %}
+
+{% main_menu max_levels=3 template="transcriptva_clientsupport/menus/main_menu.dtl.html" sub_menu_template="transcriptva_clientsupport/menus/sub_menu.dtl.html" %}
+
+{% endblock %}
+
+{% block body %}
+<!-- Main Content -->
+<div class="row mx-0">
+  <div class="px-0 position-absolute h-100 w-100">
+      <div class="d-flex flex-column h-100 overflow-y-auto">
+          <div class="w-100 mx-0 p-0 d-flex bg-light">
+            <!-- Bread crumbs -->
+            <div class="flex-fill px-2 py-3 d-flex align-items-center">
+              {% if self.get_ancestors|length > 1 %}
+                  <ul class="breadcrumb m-0">
+                      {% for page in self.get_ancestors %}
+                          {% if page.is_root == False and page.url != '/' %}
+                              <li class="breadcrumb-item">
+                                <a href="{% pageurl page %}">{{ page.title }}</a>
+                                <span>&nbsp;&nbsp;</span>
+                                <i class="bi-arrow-right"></i>
+                                <span>&nbsp;&nbsp;</span>
+                              </li>
+                          {% endif %}
+                      {% endfor %}
+                      <li class="active">{{ self.title }}</li>
+                  </ul>
+              {% endif %}
+            </div>
+          </div>
+          <div class="border flex-fill py-0 d-flex flex-column">
+              <div class="overflow-y-auto flex-fill my-2 mx-2 shadow shadow-sm p-3">
+                <h2 class="display-4 my-2 text-warning">
+                  <i class="bi-arrow-right"></i>
+                  <span>{{ page.title }}</span>
+                </h2>
+                <hr class="text-warning">
+                <div class="lead">
+                    {{ page.body|richtext }}
+                </div>
+                {% if page.related_links.all %}
+                <div>
+                    <hr>
+                    <h4 class="display-6">Related to this</h4>
+                    <hr>
+                    <div>
+                        {% for article in page.related_links.all %}
+                        <a class="nav-link" href="{{ article.link }}">
+                            <i class="bi-arrow-right"></i>
+                            <span>{{ article.name }}</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+              </div>
+
+              {% include 'transcriptva_clienthub/includes/footer.dtl.html' %}
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

@@ -7,67 +7,18 @@
 <title>Transcript VA - My Notifications</title>
 {% endblock %}
 {% block body %}
-<div class="container-fluid px-0">
-    <nav class="navbar nav-lg py-3 px-2">
+<div class="container-fluid px-0 mb-1">
+    <nav class="navbar nav-lg py-3 px-2 border-bottom">
         <div class="me-auto">
-            <h4>My Notifications</span></h4>
+            <h3 class="display-6">
+                <span>My </span>
+                <span class="text-warning">Notifications</span>
+            </h3>
         </div>
     </nav>
 </div>
-<div class="flex-fill">
-    <!-- Filters and Actions -->
-    <div class="container py-2 shadow-sm">
-        <fieldset class="border p-2">
-            <legend class="w-auto">
-                <i class="bi-funnel"></i>
-                <span>Filters</span>
-            </legend>
-            <div class="row py-2">
-                <div class="col-6">
-                    <input class="form-control form-control-sm" list="filename_options" id="filename_search" placeholder="Type to search...">
-                    <datalist id="filename_options">
-                        <option value="audio 1">
-                        <option value="neffex great">
-                        <option value="dummy file">
-                        <option value="sample recording">
-                        <option value="sample 2">
-                    </datalist>
-                </div>
-                <div class="col-6">
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="form-label" aria-label-for="orderby_select">
-                                <span>Order By: </span>
-                            </label>
-                        </div>
-                        <div class="col-9">
-                            <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example" name="orderby_select">
-                                <option selected value="all">Name</option>
-                                <option value="transcribed">Date uploaded</option>
-                                <option value="transcribing">Status</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            <div>
-        </fieldset>
-
-        <div class="row py-2">
-            <div class="col-6">
-                <select class="form-select form-select-sm mb-3" aria-label=".form-select-lg example" name="status_select">
-                    <option selected value="mark_read">Mark Read</option>
-                    <option value="mark_unread">Mark Unread</option>
-                    <option value="delete">Delete</option>
-                </select>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-sm btn-secondary">
-                    <span>Commit Action</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="container py-2">
+<div class="flex-fill d-flex flex-column">
+    <div class="container py-2 flex-fill">
         <div class="border">
             <table class="table table-hover">
                 <thead>
@@ -83,14 +34,14 @@
                 </thead>
 
                 <tbody>
-                    {% for notification in notifications %}
+                    {% for e in notifications %}
                     <tr>
                         <th scope="row">
                             <input type="checkbox" name="{{ notification.pk }}" class="form-check-input">
                         </th>
-                        <td>{{ notification.title }}</td>
-                        <td>{{ notification.text }}</td>
-                        <td>{{ notification.created_on|naturaltime }}</td>
+                        <td class="lead">{{ e.notification.title }}</td>
+                        <td class="lead">{{ e.notification.text }}</td>
+                        <td class="lead">{{ e.notification.created_on|naturaltime }}</td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn border-0"
@@ -102,7 +53,7 @@
                                     <li>
                                         <a class="dropdown-item" href="#">
                                             <i class="bi-eye"></i>
-                                            <span>View Full</span>
+                                            <span>Mark as read</span>
                                         </a>
                                     </li>
                                     <hr>
@@ -121,6 +72,7 @@
             </table>
         </div>
     </div>
+    {% include 'transcriptva_clienthub/includes/footer.dtl.html' %}
 </div>
 
 {% endblock %}

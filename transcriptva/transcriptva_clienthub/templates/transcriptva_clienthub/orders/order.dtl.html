@@ -6,13 +6,23 @@
 <title>Transcript VA - Order Transcript</title>
 {% endblock %}
 
+{% block topbar %}
+<ul class="navbar-nav py-3 flex-fill">
+    <li class="nav-item align-self-end">
+        <a href="{% url 'order_transcript' %}" class="btn btn-warning text-whites">
+            <i class="bi-file-earmark-plus"></i>
+            <span>Order Transcript</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}
+
 {% block body %}
-<div class="container-fluid px-0 shadow-sm">
-    <nav class="navbar nav-lg py-3 px-2">
-        <div class="me-auto">
-            <h4>Order New Transcript</span></h4>
-        </div>
-    </nav>
+<div class="px-2 pt-4 pb-3">
+    <h3 class="display-6">
+        <span>Order </span>
+        <span class="text-warning">Transcript</span>
+    </h3>
 </div>
 <div class="flex-fill">
     <!-- Details -->
@@ -159,7 +169,7 @@
                 </div>
 
                 <div class="col-10 offset-2 mt-2 px-1">
-                    <button class="btn btn-sm btn-success" type="submit">
+                    <button class="btn btn-sm bg-tva-primary text-white" type="submit">
                         <i class="bi-cart-check"></i>
                         <span>Proceed to Checkout</span>
                     </button>
@@ -167,7 +177,7 @@
 
                 <div class="col-10 offset-2 px-1">
                     <hr>
-                    <a href="{% url 'transcripts' %}" class="btn btn-sm btn-danger">
+                    <a href="{% url 'transcripts' %}" class="btn btn-sm btn-warning">
                         <i class="bi-arrow-left"></i>
                         <span>Back to Transcripts</span>
                     </a>
@@ -175,6 +185,7 @@
             </fieldset>
         </div>
     </form>
+    {% include 'transcriptva_clienthub/includes/footer.dtl.html' %}
 </div>
 {% endblock %}
 {% block script %}

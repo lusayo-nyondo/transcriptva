@@ -6,17 +6,18 @@
 <title>Transcript VA - View Order</title>
 {% endblock %}
 
+{% block topbar %}
+<ul class="navbar-nav py-3 flex-fill">
+    <li class="nav-item align-self-end">
+        <a href="{% url 'view_order' order.pk %}" class="btn btn-warning btn-sm">
+            <i class="bi-arrow-left"></i>
+            <span>Back to order details</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}
+
 {% block body %}
-<div class="container-fluid px-0 shadow-sm">
-    <nav class="navbar nav-lg py-3 px-2">
-        <div class="me-auto">
-            <a href="{% url 'view_order' order.pk %}" class="btn btn-warning btn-sm">
-                <i class="bi-arrow-left"></i>
-                <span>Back to order details</span>
-            </a>
-        </div>
-    </nav>
-</div>
 <div class="flex-fill">
     <div class="border p-4 m-2 shadow-sm">
         <p class="lead">Order payment finalization stub</p>

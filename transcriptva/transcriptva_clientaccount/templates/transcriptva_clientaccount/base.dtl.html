@@ -2,56 +2,54 @@
 
 {% load static %}
 
-{% block topbar %}
-    <div class="w-100 mx-0 ps-2 py-3 shadow-sm">
-        <a href="{% url 'clienthub' %}" class="btn btn-warning btn-sm">
-            <i class="bi-arrow-left"></i>
-            <span>Back To Client Hub</span>
-        </a>
-    </div>
+{% block topnav_links %}
+<ul class="navbar-nav d-flex flex-row">
+  <li class="nav-item ml-2">
+    <a href="{% url 'clienthub' %}" class="btn btn-warning btn-sm">
+      <i class="bi-arrow-left"></i>
+      <span>Back To Client Hub</span>
+    </a>
+  </li>
+</ul>
 {% endblock %}
 
-{% block sidebar %}
-<div class="flex-fill py-3 px-0">
-    <div class="w-100 px-5 mb-3">
-    </div>
-    <hr class="my-0">
-    <ul class="nav">
-      <li class="nav-item w-100">
-        <a href="{% url 'personal_details' %}"
-          class="btn py-3 border-bottom rounded-0 w-100 text-start">
-            <i class="bi-arrow-right"></i>
-            <span>Personal Details</span>
-        </a>
-      </li>
-      <li class="nav-item w-100">
-        <a href="{% url 'payment_details' %}"
-          class="btn py-3 border-bottom rounded-0 w-100 text-start">
-            <i class="bi-arrow-right"></i>
-            <span>Payment Details</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <ul class="nav">
-    <li class="nav-item w-100">
-      <a href="{% url 'delete_account' %}"
-        class="btn btn-danger py-3 rounded-0 w-100 text-start">
-        <i class="bi-person-x-fill"></i>
-        <span>Delete Account</span>
-      </a>
-    </li>
-  </ul>
+{% block sidebar_menu %}
+
+{% include 'transcriptva_clientaccount/includes/sidebar_menu.dtl.html' %}
+
+{% endblock %}
+
+{% block offcanvas_sidebar_header %}
+<span>My Account</span>
+{% endblock %}
+
+{% block offcanvas_sidebar_menu %}
+
+{% include 'transcriptva_clientaccount/includes/sidebar_menu.dtl.html' %}
+
 {% endblock %}
 
 {% block body %}
-    <div class="w-100 h-100">
-        <div class="m-2 shadow-sm p-3">
-          {% if status and status == 'success' %}
-          <p class="alert alert-success">{{ message }}</p>
-          {% endif %}
+<div class="w-100 h-100 d-flex flex-column">
+  <div class="px-2 pt-4 pb-3">
+      <div class="d-flex flex-nowrap">
+        {% block page_heading %}  
+          <h3 class="flex-fill display-6">
+              <span>Personal </span>
+              <span class="text-warning">Details</span>
+          </h3>
+        {% endblock %}
+      </div>
+  </div>
+  <div class="m-2 shadow-sm p-3 flex-fill">
+      {% if status and status == 'success' %}
+      <p class="alert alert-success">{{ message }}</p>
+      {% endif %}
 
-          {% block form %} {% endblock %}
-        </div>
-    </div>
+      {% block form %} {% endblock %}
+  </div>
+  
+  {% include 'transcriptva_clienthub/includes/footer.dtl.html' %}
+
+</div>
 {% endblock %}

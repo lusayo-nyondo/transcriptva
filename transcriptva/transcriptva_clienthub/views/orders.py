@@ -58,7 +58,7 @@ def orders_list(request):
     elif order_by == 'date_asc':
         orders = orders.order_by('created_on')
     
-    paginator = Paginator(orders, 8)
+    paginator = Paginator(orders, 6)
 
     context['paginator'] = paginator
     context['page_obj'] = paginator.page(page)
@@ -104,11 +104,10 @@ def order_transcript(request):
 
         order = Order.objects.create()
 
+        # Order reference is auto-generated
         order.owner = request.user
-
-        order.reference = None
         
-        order.service = order._get_service(
+        order.service = order._get_service_by_details(
             type,
             accent,
             verbatim,
@@ -123,6 +122,7 @@ def order_transcript(request):
         transcript = Transcript.objects.create()
 
         transcript.owner = request.user
+        transcript.order = order
 
         transcript.file = file
         transcript.type = type
@@ -238,7 +238,7 @@ def transcripts_list(request):
     elif order_by == 'date_asc':
         transcripts = transcripts.order_by('created_on')
     
-    paginator = Paginator(transcripts, 8)
+    paginator = Paginator(transcripts, 6)
 
     context['paginator'] = paginator
     context['page_obj'] = paginator.page(page)

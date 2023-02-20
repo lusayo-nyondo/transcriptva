@@ -53,7 +53,14 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = [ 'status' ]
     actions = [ queue_order_for_transcription ]
 
-admin.site.register(Transcript)
+@admin.register(Transcript)
+class TranscriptAdmin(admin.ModelAdmin):
+    list_display = [ 'owner', 'file', 'status', 'order', 'created_on', 'completed_on' ]
+    search_fields = [ 'owner', 'file', 'status', 'order', 'created_on', 'completed_on' ]
+
+    list_editable = [ 'status' ]
+
+
 admin.site.register(Notification)
 admin.site.register(DashboardPost)
 

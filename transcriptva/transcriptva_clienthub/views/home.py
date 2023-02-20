@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.template import loader
 
 from transcriptva_clienthub.models import (
-    Notification,
+    NotificationEngagement,
     DashboardPost
 )
 
@@ -19,7 +19,7 @@ def index(request):
         'dashboard_posts': []
     }
 
-    notifications = Notification.objects.all()
+    notifications = NotificationEngagement.objects.all()
     dashboard_posts = DashboardPost.objects.all()
 
     context['notifications'] = notifications
@@ -39,7 +39,9 @@ def notifications(request):
         'notifications': []
     }
 
-    notifications = Notification.objects.all()
+    notifications = NotificationEngagement.objects.filter(
+        user=request.user
+    )
 
     context['notifications'] = notifications
 
@@ -47,3 +49,13 @@ def notifications(request):
         context,
         request
     ))
+
+def mark_notification_read(request, engagement_id):
+    if not request.user.is_authenticated:
+        return redirect('clienthub')
+    
+    e = NotificationEngagement.objects.get(engagement_id)
+
+    data = request.POST
+    
+    pass

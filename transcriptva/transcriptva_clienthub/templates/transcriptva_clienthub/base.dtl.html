@@ -16,16 +16,6 @@
         <link rel="stylesheet" href="{% static 'transcriptva_clienthub/assets/site/style.css' %}">
     </head>
     <body class="vh-100 d-flex flex-column">
-      {% url 'clienthub' as client_hub_url %}
-      {% url 'notifications' as notifications_url %}
-      {% url 'orders' as orders_url %}
-      {% url 'transcripts' as transcripts_url %}
-      {% url 'sign_out' as sign_out_url %}
-      {% url 'order_transcript' as order_transcript_url %}
-      {% url 'make_order_payment' as order_payment_url %}
-      
-      {% with view_order_url='clienthub/view_order' %}
-      {% with order_payment_url='clienthub/make_order_payment' %}
       <nav class="navbar navbar-dark bg-dark px-3 border-bottom">
         <!-- Navbar Content -->
         <div class="container-fluid">
@@ -35,6 +25,7 @@
               alt="TranscriptVA"
               src="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo-alternate-colors.png' %}">
           </a>
+          {% block topnav_links %}
           <ul class="navbar-nav d-flex flex-row">
             <li class="nav-item mx-2">
               <a class="btn btn-sm text-white" href="{% url 'personal_details' %}">
@@ -42,82 +33,83 @@
                 <span><strong>My Account</strong></span>
               </a>
             </li>
-
-            <li class="nav-item ml-2">
-              <a class="btn btn-sm text-white" href="/clientsupport">
-                <i class="bi-info-circle"></i>
-                <span><strong>Support</strong></span>
-              </a>
-            </li>
           </ul>
+          {% endblock %}
         </div>
       </nav>
       <main class="flex-fill container-fluid">
         <div class="row h-100">
           <!-- Sidebar -->
-          <div class="col-2
-              border
-              h-100 px-0 pb-0
-              d-flex flex-column
-              bg-white
-              shadow-sm">
-              {% block sidebar %}
-              <div class="flex-fill py-3 px-0">
-                <ul class="nav">
-                  <li class="nav-item w-100">
-                    <a
-                      href="{{ client_hub_url }}"
-                      class="btn py-3 border-bottom rounded-0 w-100 text-start
-                            {% if request.path == client_hub_url or request.path == notifications_url %} btn-warning text-white {% endif %}">
-                        <i class="bi-house-fill"></i>
-                        <span>Home</span>
-                    </a>
-                  </li>
-                  <li class="nav-item w-100">
-                    <a
-                      href="{{ orders_url }}"
-                      class="btn py-3 border-bottom rounded-0 w-100 text-start
-                            {% if request.path == orders_url or order_payment_url in request.build_absolute_uri or request.path == order_transcript_url or view_order_url in request.build_absolute_uri %} btn-warning text-white {% endif %}">
-                        <i class="bi-file-text-fill"></i>
-                        <span>My Orders</span>
-                    </a>
-                  </li>
-                  <li class="nav-item w-100">
-                    <a
-                      href="{{ transcripts_url }}"
-                      class="btn py-3 border-bottom rounded-0 w-100 text-start
-                            {% if request.path == transcripts_url %} btn-warning text-white {% endif %}">
-                        <i class="bi-mic-fill"></i>
-                        <span>My Transcripts</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <ul class="nav">
-                <li class="nav-item w-100">
-                  <a href="{{ sign_out_url }}"
-                    class="btn py-3 text-white bg-dark rounded-0 w-100 text-start">
-                    <i class="bi-box-arrow-left"></i>
-                    <span>Logout</span>
-                  </a>
-                </li>
-              </ul>
-              {% endblock %}
+          <div class="col col-3 col-lg-2 d-none d-lg-flex
+            border
+            h-100 px-0 pb-0
+            flex-column
+            bg-light
+            shadow-sm">
+            {% block sidebar_menu %}
+
+            {% include 'transcriptva_clienthub/includes/sidebar_menu.dtl.html' %}
+
+            {% endblock %}
           </div>
+
+          <!-- Off Canvas Sidebar for Mobile -->
+          {% block offcanvas_sidebar %}
+          
+          <div class="offcanvas px-0 offcanvas-start"
+              data-bs-scroll="true"
+              tabindex="-1"
+              id="offcanvas_sidebar"
+              aria-labelledby="offcanvas_sidebar_label">
+              <div class="offcanvas-header bg-dark">
+                  <h5 class="offcanvas-title text-white text-start" id="offcanvas_sidebar_label">
+                      <img src="{% static 'transcriptva_clienthub/assets/images/transcript-va-logo-alternate-colors.png' %}" class="img-fluid" style="height: 60px;">
+                      {% block offcanvas_sidebar_header%}
+                      <span>Client Hub</span>
+                      {% endblock %}
+                  </h5>
+                  <button type="button" class="btn-close text-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body p-0 d-flex flex-column">
+                <div class="border
+                  h-100 px-0 pb-0
+                  d-flex flex-column
+                  bg-white
+                  shadow-sm">
+                  {% block offcanvas_sidebar_menu %}
+                  
+                  {% include 'transcriptva_clienthub/includes/sidebar_menu.dtl.html' %}
+                  
+                  {% endblock %}
+                </div>
+              </div>
+          </div>
+          {% endblock %}
           <!-- Main Content -->
-          <div class="col-10 position-relative px-0">
+          <div class="col col-12 col-lg-10 position-relative px-0">
             <div class="px-0 position-absolute h-100 w-100">
               <div class="d-flex flex-column h-100 overflow-y-auto">
-              {% block topbar %}{% endblock %}
-              {% block body %}
-              {% endblock %}
+                <div class="container-fluid px-0 shadow-sm">
+                  <nav class="navbar nav-lg p-0 pe-2 border">
+                      <button
+                          style="font-size: xx-large;"
+                          class="btn d-lg-none py-3 border-end border-2 text-dark bg-white rounded-0 px-4"
+                          type="button"
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="#offcanvas_sidebar"
+                          aria-controls="offcanvas_sidebar">
+                          <i class="bi-list"></i>
+                      </button>
+                      {% block topbar %}{% endblock %}
+                  </nav>
+                </div>
+                {% block body %}
+                {% endblock %}
               </div>
             </div>
           </div>
         </div>
       </main>
-      {% endwith %}
-      {% endwith %}
       <script src="{% static 'transcriptva_clienthub/assets/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
       <script src="{% static 'transcriptva_clienthub/assets/site/script.js' %}"></script>
       {% block script %}{% endblock %}

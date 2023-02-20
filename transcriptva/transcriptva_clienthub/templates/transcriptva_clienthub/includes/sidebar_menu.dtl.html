@@ -1,0 +1,60 @@
+{% url 'clienthub' as client_hub_url %}
+{% url 'notifications' as notifications_url %}
+{% url 'orders' as orders_url %}
+{% url 'transcripts' as transcripts_url %}
+{% url 'sign_out' as sign_out_url %}
+{% url 'order_transcript' as order_transcript_url %}
+{% url 'make_order_payment' as order_payment_url %}
+
+{% with view_order_url='clienthub/view_order' %}
+{% with order_payment_url='clienthub/make_order_payment' %}
+<div class="flex-fill p-0">
+    <ul class="nav">
+        <li class="nav-item w-100 bg-white">
+            <a
+                href="{{ client_hub_url }}"
+                class="btn py-3 border-bottom rounded-0 w-100 text-start
+                    {% if request.path == client_hub_url or request.path == notifications_url %} btn-warning text-white{% endif %}">
+                <i class="bi-house-fill"></i>
+                <span class="lead">Home</span>
+            </a>
+        </li>
+        <li class="nav-item w-100 bg-white">
+            <a
+                href="{{ orders_url }}"
+                class="btn py-3 border-bottom rounded-0 w-100 text-start
+                    {% if request.path == orders_url or order_payment_url in request.build_absolute_uri or request.path == order_transcript_url or view_order_url in request.build_absolute_uri %} btn-warning text-white{% endif %}">
+                <i class="bi-file-text-fill"></i>
+                <span class="lead">My Orders</span>
+            </a>
+        </li>
+        <li class="nav-item w-100 bg-white">
+            <a
+                href="{{ transcripts_url }}"
+                class="btn py-3 border-bottom rounded-0 w-100 text-start
+                    {% if request.path == transcripts_url %} btn-warning text-white{% endif %}">
+                <i class="bi-mic-fill"></i>
+                <span class="lead">My Transcripts</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<ul class="nav">
+    <li class="nav-item w-100">
+        <a
+            class="btn py-3 border-top rounded-0 w-100 text-start bg-white"
+            href="/clientsupport">
+            <i class="bi-info-circle"></i>
+            <span class="lead">Support</span>
+        </a>
+    </li>
+    <li class="nav-item w-100">
+        <a href="{{ sign_out_url }}"
+            class="btn py-3 text-white bg-dark rounded-0 w-100 text-start">
+            <i class="bi-box-arrow-left"></i>
+            <span class="lead">Logout</span>
+        </a>
+    </li>
+</ul>
+{% endwith %}
+{% endwith %}

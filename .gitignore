@@ -4,5 +4,6 @@ db.sqlite3
 migrations
 client_media
 public_static
+samplewagtailapp
 
 node_modules

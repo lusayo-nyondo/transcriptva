@@ -5,40 +5,58 @@
 {% block title %}
 <title>Transcript VA - My Orders</title>
 {% endblock %}
+
+{% block topbar %}
+<ul class="navbar-nav py-3 flex-fill">
+    <li class="nav-item align-self-end">
+        <a href="{% url 'order_transcript' %}" class="btn btn-warning text-whites">
+            <i class="bi-file-earmark-plus"></i>
+            <span>Order Transcript</span>
+        </a>
+    </li>
+</ul>
+{% endblock %}
+
 {% block body %}
-<div class="container-fluid px-0 shadow-sm">
-    <nav class="navbar nav-lg py-3 px-2">
-        <div class="me-auto">
-            <h4>My Orders</span></h4>
-        </div>
-        <ul class="navbar-nav">
-            <li class="nav-item align-self-end">
-                <a href="{% url 'order_transcript' %}" class="btn btn-warning text-whites">
-                    <i class="bi-file-earmark-plus"></i>
-                    <span>Order Transcript</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
-<div class="flex-fill">
-    <!-- Filters -->
-    <div class="p-2">
-        <fieldset class="border p-2">
-            <legend class="w-auto">
-                <i class="bi-funnel"></i>
+<div class="px-2 pt-4 pb-3">
+    <div class="d-flex flex-nowrap">
+        <h3 class="flex-fill display-6">
+            <span>My </span>
+            <span class="text-warning">Orders</span>       
+        </h3>
+        <div class="ms-auto">
+            <button
+                type="button"
+                class="btn btn-sm btn-warning"
+                data-bs-toggle="collapse"
+                data-bs-target="#filters_collapse">
+                <strong><i class="bi-chevron-down"></i></strong>
                 <span>Filters</span>
-            </legend>
-            <div class="row py-2">
-                <div class="col-4">
+            </button>
+        </div>
+    </div>
+</div>
+<div class="flex-fill d-flex flex-column">
+    <!-- Filters -->
+    <div class="px-2 collapse" id="filters_collapse">
+        <fieldset>
+            <div class="row mx-0">
+                <div class="col-12 my-1 col-md-6 d-flex">
+                    <input {% if search_term %} value="{{ search_term }}" {% endif %}
+                        type="text" id="filename_search" class="form-control form-control-sm me-1" id="filename_search" placeholder="Search by filename...">
+                    <button id="search_button" type="button" class="btn btn-sm btn-secondary">Search</button>
+                </div>
+            </div>
+            <div class="row mx-0 py-2">
+                <div class="col-12 my-1 col-md-6">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-2">
                             <label class="form-label" aria-label-for="status_select">
                                 <span>Status: </span>
                             </label>
                         </div>
-                        <div class="col-9">
-                            <select id="status_select" class="form-select form-select-sm mb-3" aria-label=".form-select-lg example" name="status_select">
+                        <div class="col-10">
+                            <select id="status_select" class="form-select form-select-sm" aria-label=".form-select-lg example" name="status_select">
                                 <option value="all">All</option>
                                 <option {% if status == 'AWAITING_PAYMENT' %} selected {% endif %} value="awaiting_payment">Awaiting Payment</option>
                                 <option {% if status == 'AWAITING_ASSIGNMENT' %} selected {% endif %} value="awaiting_assignment">Awaiting Assignment</option>
@@ -48,19 +66,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <input {% if search_term %} value="{{ search_term }}" {% endif %}
-                        type="text" id="filename_search" class="form-control form-control-sm" id="filename_search" placeholder="Search by filename...">
-                </div>
-                <div class="col-4">
+                <div class="col-12 my-1 col-md-6">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-2">
                             <label class="form-label" aria-label-for="order_by_select">
-                                <span>Order By: </span>
+                                <span>Order: </span>
                             </label>
                         </div>
-                        <div class="col-9">
-                            <select class="form-select form-select-sm mb-3" id="order_by_select" aria-label=".form-select-lg example" name="order_by_select">
+                        <div class="col-10">
+                            <select class="form-select form-select-sm" id="order_by_select" aria-label=".form-select-lg example" name="order_by_select">
                                 <option {% if order_by == 'date_desc' %} selected {% endif %} value="date_desc">Date (New to Old)</option>
                                 <option {% if order_by == 'date_asc' %} selected {% endif %} value="date_asc">Date (Old to New)</option>
                             </select>
@@ -70,109 +84,93 @@
             <div>
         </fieldset>
     </div>
-    <div class="p-2">
-        <div class="border">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="table-dark">
-                        <th scope="col">ID</th>
-                        <th scope="col">Reference</th>
-                        <th scope="col">Created On</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
+    <div class="p-1 flex-fill">
+        <div class="h-100 d-flex flex-column">
+            <hr class="m-0">
+            <div class="flex-fill d-none d-lg-block">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr class="table-dark">
+                            <th scope="col">#</th>
+                            <th scope="col">Reference</th>
+                            <th scope="col">Created On</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <th scope="row">{{ order.id }} </th>
+                            <td>
+                                {% include 'transcriptva_clienthub/orders/components/filename_field.dtl.html' %}
+                            </td>
+                            <td>{{ order.created_on }}</td>
+                            <td>
+                                {% include 'transcriptva_clienthub/orders/components/status_badge.dtl.html' %}
+                            </td>
+                            <td>
+                                {% include 'transcriptva_clienthub/orders/components/action_dropdown.dtl.html' %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                    {% if page_obj.paginator.num_pages > 1 %}
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">
+                                {% include 'transcriptva_clienthub/orders/components/pagination.dtl.html' %}
+                            </td>
+                        </tr>
+                    </tfoot>
+                    {% endif %}
+                </table>
+            </div>
+
+            <div class="flex-fill justify-content-center d-lg-none">
+                <div class="row mx-0">
                     {% for order in orders %}
-                    <tr>
-                        <th scope="row">{{ order.id }} </th>
-                        <td>{{ order.reference }}</td>
-                        <td>{{ order.created_on }}</td>
-                        <td>
-                            <span class="badge{% if order.status == 'COMPLETED' %} bg-success{% elif order.status == 'CANCELED' %} bg-danger{% elif order.status == 'AWAITING_PAYMENT' %} bg-warning {% else %} bg-info{% endif %}">{{ order.get_status_display }}</span>
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button class="btn border-0"
-                                    type="dropdown" id="dropdown_menu_button_1" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <i class="bi-three-dots"></i>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdown_menu_button_1">
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'view_order' order.pk %}">
-                                            <i class="bi-eye"></i>
-                                            <span>View Order Details</span>
-                                        </a>
-                                    </li>
-                                    {% if order.status == 'AWAITING_PAYMENT' %}
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'make_order_payment' order.id %}">
-                                            <i class="bi-credit-card text-success"></i>
-                                            <span class="text-success">Make Payment</span>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    {% if order.transcript %}
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'view_transcript' order.transcript.pk %}">
-                                            <i class="bi-mic-fill text-success"></i>
-                                            <span class="text-success">View Transcript </span>
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                    <hr>
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'raise_order_issue' order.pk %}">
-                                            <i class="text-danger bi-exclamation-triangle"></i>
-                                            <span class="text-danger">Raise Issue</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                    <div class="col col-12 col-md-6 col-lg-4"> 
+                        <div class="card m-2">
+                            <div class="card-header bg-dark text-white">
+                                <div class="d-flex">
+                                    <div class="flex-fill d-flex align-items-center">
+                                        <pre class="m-0"><strong>Order # {{ order.pk }}</strong></pre>
+                                    </div>
+                                    <div>
+                                        {% include 'transcriptva_clienthub/orders/components/action_dropdown.dtl.html' with color='text-white' %}
+                                    </div>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
+                            <div class="card-body">
+                                <p class="d-flex align-items-center">
+                                    <span class="flex-fill">
+                                        {% include 'transcriptva_clienthub/orders/components/filename_field.dtl.html' %}
+                                    </span>
+                                </p>
+                                <p>
+                                    {% include 'transcriptva_clienthub/orders/components/status_badge.dtl.html' %}
+                                </p>
+                            </div>
+                            <div class="card-footer">
+                                <small>{{ order.created_on }}</small>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
-                </tbody>
+                </div>
+                <div class="row mx-0 justify-content-center mx-4 py-2">
+                    {% if page_obj.paginator.num_pages > 1 %}
+                    
+                    {% include 'transcriptva_clienthub/orders/components/pagination.dtl.html' %}
 
-                {% if page_obj.paginator.num_pages > 1 %}
-                <tfoot>
-                    <tr>
-                        <td colspan="7">
-                            <div class="w-100 d-flex flex-fill">
-                                <ul class="pagination mx-auto my-0">
-                                    <li class="page-item{% if not page_obj.has_previous %} disabled{% endif %}">
-                                        <button
-                                            {% if page_obj.has_previous %}onclick='go_to_page({{ page_obj.number|add:"-1" }})'{% else %} disabled {% endif %}
-                                            type="button" class="page-link" id="previous_page_button">Previous</button>
-                                    </li>
-                                    <li class="page-item">
-                                        <div class="dropdown">
-                                            <button type="button" class="page-link dropdown-toggle" id="current_page_button" data-bs-toggle="dropdown" aria-expanded="false">
-                                              <span id="current_page_number">{{ page_obj.number }}</span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                {% for i in paginator.page_range %}
-                                                <li>
-                                                    <button onclick="go_to_page({{ i }})" type="button" id="select_page_button_{{ i }}" class="dropdown-item">{{ i }}</button>
-                                                </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="page-item{% if not page_obj.has_next %} disabled{% endif %}">
-                                        <button
-                                            {% if page_obj.has_next %} onclick='go_to_page({{ page_obj.number|add:"1" }})' {% else %} disabled {% endif %}
-                                            type="button" class="page-link" id="next_page_button">Next</button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot>
-                {% endif %}
-            </table>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% include 'transcriptva_clienthub/includes/footer.dtl.html' %}
         </div>
     </div>
 </div>
@@ -183,8 +181,13 @@
 const status_select = document.getElementById('status_select');
 const order_by_select = document.getElementById('order_by_select');
 const search_input = document.getElementById('filename_search');
+const search_button = document.getElementById('search_button');
 
 const BASE_URL = "{% url 'orders' %}";
+
+function copy_to_clipboard(text) {
+    navigator.clipboard.writeText(text);
+}
 
 function get_filters_url() {
     let status = status_select.value;
@@ -216,6 +219,10 @@ order_by_select.addEventListener('change', e => {
 
 search_input.addEventListener('keyup', e => {
     if (e.key == 'Enter') apply_filters();
+});
+
+search_button.addEventListener('click', e => {
+    apply_filters();
 });
 </script>
 {% endblock %}
