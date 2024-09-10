@@ -8,10 +8,10 @@ from transcriptva_clienthub.models import (
     DashboardPost
 )
 
-from transcriptva_clientsupport.models import (
-    ClientIssue,
-    IssueAttachment
-)
+#from transcriptva_clientsupport.models import (
+#    ClientIssue,
+#    IssueAttachment
+#)
 
 from transcriptva_clientaccount.models import (
     User
@@ -65,12 +65,12 @@ admin.site.register(Notification)
 admin.site.register(DashboardPost)
 
 
-class IssueAttachmentsInline(admin.StackedInline):
-    model = IssueAttachment
+#class IssueAttachmentsInline(admin.StackedInline):
+#    model = IssueAttachment
 
 
-class ClientIssueAdmin(admin.ModelAdmin):
-    inlines = [ IssueAttachmentsInline ]
+#class ClientIssueAdmin(admin.ModelAdmin):
+#    inlines = [ IssueAttachmentsInline ]
 
 
-admin.site.register(ClientIssue, ClientIssueAdmin)
+#admin.site.register(ClientIssue, ClientIssueAdmin)

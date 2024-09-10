@@ -29,7 +29,7 @@ SITE_URL = 'http://localhost:8000'
 INSTALLED_APPS = [
     'transcriptva_clientsite', # The main business website.
     'transcriptva_clienthub', # The client webapp for the platform.
-    'transcriptva_clientsupport',
+    #'transcriptva_clientsupport',
     'transcriptva_clientaccount',
 
     'transcriptva_admin',
@@ -41,24 +41,24 @@ INSTALLED_APPS = [
     'colorfield',
 
     # Wagtail apps
-    'wagtail.contrib.forms',
-    'wagtail.contrib.redirects',
-    'wagtail.embeds',
-    'wagtail.sites',
-    'wagtail.users',
-    'wagtail.snippets',
-    'wagtail.documents',
-    'wagtail.images',
-    'wagtail.search',
-    'wagtail.admin',
-    'wagtail',
+    #'wagtail.contrib.forms',
+    #'wagtail.contrib.redirects',
+    #'wagtail.embeds',
+    #'wagtail.sites',
+    #'wagtail.users',
+    #'wagtail.snippets',
+    #'wagtail.documents',
+    #'wagtail.images',
+    #'wagtail.search',
+    #'wagtail.admin',
+    #'wagtail',
 
-    'taggit',
-    'modelcluster',
+    #'taggit',
+    #'modelcluster',
 
     # Wagtail menu apps
-    'wagtail.contrib.modeladmin',
-    'wagtailmenus',
+    #'wagtail.contrib.modeladmin',
+    #'wagtailmenus',
 
     'django.contrib.sites',
     'django.contrib.admin',
@@ -82,7 +82,7 @@ MIDDLEWARE = [
     
     'django.middleware.locale.LocaleMiddleware',
 
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware'
+    #'wagtail.contrib.redirects.middleware.RedirectMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -94,7 +94,7 @@ TEMPLATES = [
             'transcriptva/transcriptva_blog/templates',
             'transcriptva/transcriptva_clienthub/templates',
             'transcriptva/transcriptva_clientsite/templates',
-            'transcriptva/transcriptva_clientsupport/templates',
+            #'transcriptva/transcriptva_clientsupport/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -105,7 +105,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 # Wagtail Context Processors
-                'wagtailmenus.context_processors.wagtailmenus',
+                #'wagtailmenus.context_processors.wagtailmenus',
             ],
         },
     },
@@ -175,23 +175,23 @@ AUTH_USER_MODEL = 'transcriptva_clientaccount.User'
 MEDIA_URL = '/client_media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'client_media')
 
-WAGTAIL_SITE_NAME = 'Transcript VA'
+#WAGTAIL_SITE_NAME = 'Transcript VA'
 
 # Replace the search backend
-WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND': 'wagtail.search.backends.database',
-    }
-}
+#WAGTAILSEARCH_BACKENDS = {
+#    'default': {
+#        'BACKEND': 'wagtail.search.backends.database',
+#    }
+#}
 
 
-WAGTAILADMIN_BASE_URL = 'admin'
+#WAGTAILADMIN_BASE_URL = 'admin'
 
 # Wagtail email notifications from address
-WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = 'wagtail@myhost.io'
+#WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = 'wagtail@myhost.io'
 
 # Wagtail email notification format
-WAGTAILADMIN_NOTIFICATION_USE_HTML = True
+#WAGTAILADMIN_NOTIFICATION_USE_HTML = True
 
 # Reverse the default case-sensitive handling of tags
-TAGGIT_CASE_INSENSITIVE = True
+#TAGGIT_CASE_INSENSITIVE = True
