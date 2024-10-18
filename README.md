@@ -1,5 +1,7 @@
 # Transcript VA Site
 
-This repository contains the main business website for the Transcript VA venture.
+This repository essentially contains three projects:
 
-It is created seperate from the rest of the project to allow a unique focus on SEO and client acquisition tools.
+1. The marketing website for Transcript VA.
+2. The client order management web application for Transcript VA.
+3. The transcript editor React application with a Django backend.
